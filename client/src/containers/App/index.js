@@ -8,6 +8,12 @@ import logo from '../../logo.svg';
 import './App.css';
 
 class App extends Component {
+  componentDidMount() {
+    const { userActions } = this.props;
+
+    userActions.getUsersFromAPI();
+  }
+
   render() {
     console.log(this.props, 'props')
     return (

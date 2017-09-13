@@ -4,7 +4,8 @@ const { User } = require('../models');
 const createTestUser = async (req, res, next) => {
 	const params = {
 		username: 'billy',
-		password: 'bob'
+		password: 'bob',
+		email: 'billbob@gmail.com'
 	}
 
 	try {
@@ -22,13 +23,10 @@ const createTestUser = async (req, res, next) => {
 	}
 }
 
-/* GET home page. */
 router.get('/', (req, res, next) => {
   res.render('index');
 });
 
 router.get('/testuser', createTestUser);
-
-
 
 module.exports = router;

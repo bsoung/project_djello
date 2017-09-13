@@ -1,33 +1,33 @@
 import { APIManager } from '../services';
 import userConstants from '../constants/userConstants';
 
-export function getStocksRequest() {
+export function getUsersRequest() {
 	return {
 		type: userConstants.GET_USERS_REQUEST
 	};
 }
 
-export function getStocksSuccess(payload) {
+export function getUsersSuccess(payload) {
 	return {
 		type: userConstants.GET_USERS_SUCCESS,
 		payload
 	};
 }
 
-export function getStocksFailure(payload) {
+export function getUsersFailure(payload) {
 	return {
 		type: userConstants.GET_USERS_FAILURE,
 		payload
 	};
 }
 
-export const getStocks = () => dispatch => {
-	dispatch(getStocksRequest());
+export const getUsersFromAPI = () => async dispatch => {
+	dispatch(getUsersRequest());
 
 	try {
-		const response = APIManager.get('api/users');
-		dispatch(getStocksSuccess(response));
+		const response = await APIManager.get('api/users');
+		dispatch(getUsersSuccess(response));
 	} catch (e) {
-		dispatch(getStocksFailure(e));
+		dispatch(getUsersFailure(e));
 	}
 };

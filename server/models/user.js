@@ -24,4 +24,19 @@ UserSchema.pre("save", async function(next) {
 	next();
 });
 
+UserSchema.methods.summary = function() {
+	const summary = {
+		id: this._id.toString(),
+		username: this.username,
+		email: this.email,
+		profile: this.profile,
+		comments: this.comments,
+		boards: this.boards,
+		teams: this.teams,
+		timestamp: this.timestamp
+	}
+
+	return summary;
+}
+
 module.exports = mongoose.model("User", UserSchema);

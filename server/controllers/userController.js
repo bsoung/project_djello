@@ -6,10 +6,15 @@ module.exports = {
 		try {
 			const users = await User.find();
 
+			const list = [];
+			users.forEach(user => list.push(user.summary()));
+
 			return res.json({
 				confirmation: 'success',
-				result: users
-			});
+				result: list
+			})
+
+			
 		} catch (e) {
 			return res.json({
 				confirmation: 'fail',
