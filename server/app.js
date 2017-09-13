@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const Promise = require('bluebird');
 
 const app = express();
+require('dotenv').config();
 
 mongoose.Promise = Promise;
 
@@ -21,6 +22,19 @@ app.use(
 		saveUninitialized: false
 	})
 );
+
+// connect to mongoose
+const beginConnection = mongoose.connect(process.env.DB_URI, {
+	useMongoClient: true
+});
+
+beginConnection
+	.then(db => {
+		console.log('DB CONNECTION SUCCESS');
+	})
+	.catch(err => {
+		console.error(err);
+	});
 
 // view engine setup
 app.engine(
