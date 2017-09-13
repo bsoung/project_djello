@@ -6,12 +6,10 @@ router.get('/:resource', (req, res, next) => {
 	const controller = controllers[resource];
 
 	if (controller == null) {
-		res.json({
+		return res.json({
 			confirmation: 'fail',
 			resource: 'invalid resource'
 		});
-
-		return;
 	}
 
 	controller.index(req, res, next);
@@ -22,12 +20,10 @@ router.get('/:resource/:id', (req, res, next) => {
 	const controller = controllers[resource];
 
 	if (controller == null) {
-		res.json({
+		return res.json({
 			confirmation: 'fail',
 			resource: 'invalid resource'
 		});
-
-		return;
 	}
 
 	controller.view(req, res, next);
@@ -38,12 +34,10 @@ router.post('/:resource', (req, res, next) => {
 	const controller = controllers[resource];
 
 	if (controller == null) {
-		res.json({
+		return res.json({
 			confirmation: 'fail',
 			resource: 'invalid resource'
 		});
-
-		return;
 	}
 
 	controller.create(req, res, next);

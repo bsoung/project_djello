@@ -9,14 +9,14 @@ module.exports = {
 			const list = [];
 			users.forEach(user => list.push(user.summary()));
 
-			return res.json({
+			res.json({
 				confirmation: 'success',
 				result: list
 			})
 
 			
 		} catch (e) {
-			return res.json({
+			res.json({
 				confirmation: 'fail',
 				message: e.message
 			});
@@ -26,19 +26,15 @@ module.exports = {
 	view: async (req, res) => {
 		const id = req.params.id;
 
-		// var _id = mongoose.Types.ObjectId.fromString(id);
-
-		// console.log(ObjectId.isValid(id), '????')
-
 		try {
 			const user = await User.findById(id);
 
-			return res.json({
+			res.json({
 				confirmation: 'success',
-				result: user
+				result: user.summary()
 			});
 		} catch (e) {
-			return res.json({
+			res.json({
 				confirmation: 'fail',
 				message: e.message
 			});
@@ -60,7 +56,7 @@ module.exports = {
 				});
 			}
 		} catch (e) {
-			return res.json({
+			res.json({
 				confirmation: 'fail',
 				message: e.message
 			});
@@ -69,12 +65,12 @@ module.exports = {
 		try {
 			let user = await User.create(req.body);
 
-			return res.json({
+			res.json({
 				confirmation: 'success',
 				message: user
 			});
 		} catch (e) {
-			return res.json({
+			res.json({
 				confirmation: 'fail',
 				message: e.message
 			});
@@ -99,16 +95,16 @@ module.exports = {
 
 			await user.save();
 
-			return res.json({
+			res.json({
 				confirmation: 'success',
 				result: user
 			})
 
 
 		} catch (e) {
-			return res.status(500).json({
+			res.status(500).json({
 					confirmation: "fail",
-					error: err
+					error: e
 				});
 		}
 	},
@@ -119,16 +115,16 @@ module.exports = {
 		try {
 			await User.findByIdAndRemove(id);
 
+			res.status(204).json({
+				confirmation: 'success',
+				message: 'User deleted'
+			});
+
 		} catch (e) {
-			return res.status(500).json({
+			res.status(500).json({
 					confirmation: "fail",
-					error: err
+					error: e
 				});
 		}
-		
-		return res.status(204).json({
-			confirmation: 'success',
-			message: 'User deleted'
-		});
 	}
 };

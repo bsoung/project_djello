@@ -5,12 +5,12 @@ module.exports = {
 		try {
 			const cards = await Card.find();
 
-			return res.json({
+			res.json({
 				confirmation: 'success',
 				result: cards
 			});
 		} catch (e) {
-			return res.json({
+			res.json({
 				confirmation: 'fail',
 				message: e.message
 			});
@@ -23,12 +23,12 @@ module.exports = {
 		try {
 			const card = await Card.findById(id);
 
-			return res.json({
+			res.json({
 				confirmation: 'success',
 				result: card
 			});
 		} catch (e) {
-			return res.json({
+			res.json({
 				confirmation: 'fail',
 				message: e.message
 			});
@@ -39,15 +39,66 @@ module.exports = {
 		try {
 			let card = await Card.create(req.body);
 
-			return res.json({
+			res.json({
 				confirmation: 'success',
 				message: card
 			});
 		} catch (e) {
-			return res.json({
+			res.json({
 				confirmation: 'fail',
 				message: e.message
 			});
+		}
+	},
+
+	update: async function(req, res) {
+		var id = req.params.id;
+
+		try {
+			let card = await Card.findOne({ _id: id });
+
+			if (!card) {
+				return res.status(404).json({
+					confirmation: 'fail',
+					message: "No such User"
+				});
+			}
+
+			// only supports updating username for now
+			card.username = req.body.username;
+
+			await card.save();
+
+			res.json({
+				confirmation: 'success',
+				result: card
+			})
+
+
+		} catch (e) {
+			res.status(500).json({
+					confirmation: "fail",
+					error: e
+				});
+		}
+	},
+
+	remove: async function(req, res) {
+		var id = req.params.id;
+
+		try {
+			await Card.findByIdAndRemove(id);
+
+			res.status(204).json({
+				confirmation: 'success',
+				message: 'Team deleted'
+			});
+
+		} catch (e) {
+			res.status(500).json({
+					confirmation: "fail",
+					error: e
+				});
 		}
 	}
 };

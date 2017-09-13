@@ -13,7 +13,7 @@ export default {
 				return;
 			}
 
-			return response.body;
+			return response.body.result;
 
 		} catch (e) {
 			throw e

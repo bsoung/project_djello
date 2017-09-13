@@ -5,12 +5,12 @@ module.exports = {
 		try {
 			const comments = await Comment.find();
 
-			return res.json({
+			res.json({
 				confirmation: 'success',
 				result: comments
 			});
 		} catch (e) {
-			return res.json({
+			res.json({
 				confirmation: 'fail',
 				message: e.message
 			});
@@ -23,12 +23,12 @@ module.exports = {
 		try {
 			const comment = await Comment.findById(id);
 
-			return res.json({
+			res.json({
 				confirmation: 'success',
 				result: comment
 			});
 		} catch (e) {
-			return res.json({
+			res.json({
 				confirmation: 'fail',
 				message: e.message
 			});
@@ -39,15 +39,66 @@ module.exports = {
 		try {
 			let comment = await Comment.create(req.body);
 
-			return res.json({
+			res.json({
 				confirmation: 'success',
 				message: comment
 			});
 		} catch (e) {
-			return res.json({
+			res.json({
 				confirmation: 'fail',
 				message: e.message
 			});
+		}
+	},
+
+	update: async function(req, res) {
+		var id = req.params.id;
+
+		try {
+			let comment = await Comment.findOne({ _id: id });
+
+			if (!comment) {
+				return res.status(404).json({
+					confirmation: 'fail',
+					message: "No such User"
+				});
+			}
+
+			// only supports updating username for now
+			comment.username = req.body.username;
+
+			await comment.save();
+
+			res.json({
+				confirmation: 'success',
+				result: comment
+			})
+
+
+		} catch (e) {
+			res.status(500).json({
+					confirmation: "fail",
+					error: e
+				});
+		}
+	},
+
+	remove: async function(req, res) {
+		var id = req.params.id;
+
+		try {
+			await Comment.findByIdAndRemove(id);
+
+			res.status(204).json({
+				confirmation: 'success',
+				message: 'Team deleted'
+			});
+
+		} catch (e) {
+			res.status(500).json({
+					confirmation: "fail",
+					error: e
+				});
 		}
 	}
 };
