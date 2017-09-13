@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const mongoose = require('mongoose');
 
 module.exports = {
 	index: async (req, res) => {
@@ -19,6 +20,10 @@ module.exports = {
 
 	view: async (req, res) => {
 		const id = req.params.id;
+
+		// var _id = mongoose.Types.ObjectId.fromString(id);
+
+		// console.log(ObjectId.isValid(id), '????')
 
 		try {
 			const user = await User.findById(id);
@@ -66,5 +71,56 @@ module.exports = {
 				message: e.message
 			});
 		}
+	},
+
+	update: async function(req, res) {
+		var id = req.params.id;
+
+		try {
+			let user = await User.findOne({ _id: id });
+
+			if (!user) {
+				return res.status(404).json({
+					confirmation: 'fail',
+					message: "No such User"
+				});
+			}
+
+			// only supports updating username for now
+			user.username = req.body.username;
+
+			await user.save();
+
+			return res.json({
+				confirmation: 'success',
+				result: user
+			})
+
+
+		} catch (e) {
+			return res.status(500).json({
+					confirmation: "fail",
+					error: err
+				});
+		}
+	},
+
+	remove: async function(req, res) {
+		var id = req.params.id;
+
+		try {
+			await User.findByIdAndRemove(id);
+
+		} catch (e) {
+			return res.status(500).json({
+					confirmation: "fail",
+					error: err
+				});
+		}
+		
+		return res.status(204).json({
+			confirmation: 'success',
+			message: 'User deleted'
+		});
 	}
 };
