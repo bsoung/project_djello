@@ -49,7 +49,10 @@ module.exports = {
 			});
 
 			if (existingUser) {
-				return res.redirect('/');
+				return res.json({
+					confirmation: 'fail',
+					message: 'User already exists'
+				});
 			}
 		} catch (e) {
 			return res.json({

@@ -36,23 +36,6 @@ module.exports = {
 	},
 
 	create: async (req, res, next) => {
-		let existingUser;
-
-		try {
-			existingUser = await Card.findOne({
-				email: req.body.email
-			});
-
-			if (existingUser) {
-				return res.redirect('/');
-			}
-		} catch (e) {
-			return res.json({
-				confirmation: 'fail',
-				message: e.message
-			});
-		}
-
 		try {
 			let card = await Card.create(req.body);
 
