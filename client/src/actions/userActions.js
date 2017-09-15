@@ -10,7 +10,7 @@ export function registerUser(credentials) {
 }
 
 export function loginUser(credentials) {
-	return dispatch => dispatch(AsyncManager.postRequest('/account/login', credentials, userConstants.LOGIN_USERS_SUCCESS));
+	return dispatch => dispatch(AsyncManager.postRequest('/account/login', credentials, userConstants.LOGIN_USER_SUCCESS));
 }
 
 export function getUsersRequest() {

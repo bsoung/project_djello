@@ -1,10 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
-
-
-
-
 import asyncValidate from '../../services/AsyncValidate';
 
 const validate = values => {
@@ -50,12 +46,13 @@ const isEmpty = (obj) => {
   return true;
 }
 
-// register(formData.LoginForm.values)
-const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData }) => {
+const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData, user }) => {
     const onSubmit = () => {
       login(formData.LoginForm.values)
         .then(() => {
           alert('Successfully logged in!')
+          let token = localStorage.getItem("userToken");
+          console.log(token, 'what is token???')
         })
         .catch((e) => {
           alert(e.message);

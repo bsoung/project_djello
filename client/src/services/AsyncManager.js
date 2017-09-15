@@ -67,7 +67,8 @@ export default {
 		try {
 			const response = await _post(path, params);
 
-			console.log(response, 'wat s the response hereeeee??')
+			localStorage.setItem('userToken', response.token);
+
 			const payload = response.results || response.result || response.user;
 
 			dispatch({

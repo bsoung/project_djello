@@ -4,9 +4,10 @@ import Header from '../Header';
 import SignupForm from '../../containers/SignupForm';
 import LoginForm from '../../containers/LoginForm';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import {withRouter} from "react-router-dom";
 import './Landing.css';
 
-export default class Landing extends Component {
+class Landing extends Component {
 	constructor() {
 		super();
 
@@ -15,6 +16,22 @@ export default class Landing extends Component {
 			showRegister: true
 		}
 	}
+
+	// componentDidMount() {
+	// 	console.log(this.props.userReducer.user, 'what is user?')
+	// 	this.checkUser(this.props.userReducer.user);
+	// }
+
+	// componentWillReceiveProps(nextProps) { // react router lifecycle
+	// 	console.log(nextProps.user, '???')
+	// 	this.checkUser(nextProps.user);
+	// }
+
+	// checkUser = (user) => {
+	// 	if (user) {
+	// 		this.props.history.push('/dashboard');
+	// 	} 
+	// }
 
 	onClickScrollRegister = (e) => {
 			const loginNode = ReactDOM.findDOMNode(this.refs.accountBox)
@@ -40,13 +57,14 @@ export default class Landing extends Component {
 
 
 	render() {
-		const { userActions, form } = this.props;
+		const { userActions, form, userReducer } = this.props;
 
 		const registerForm = (
 				<MuiThemeProvider>
         		<SignupForm 
         			register={userActions.registerUser}
         			formData={form}
+        			user={userReducer.user}
         		/>
 		    </MuiThemeProvider>
 			)
@@ -55,7 +73,8 @@ export default class Landing extends Component {
 			<MuiThemeProvider>
 				<LoginForm 
 					login={userActions.loginUser} 
-					formData={form} 
+					formData={form}
+					user={userReducer.user}
 				/>
 			</MuiThemeProvider>
 		)
@@ -111,6 +130,8 @@ export default class Landing extends Component {
 		)
 	}
 }
+
+export default withRouter(Landing);
 
 /*
 <div className="parallax">
