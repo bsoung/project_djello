@@ -1,8 +1,10 @@
 const { User } = require('../models');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 module.exports = {
-	index: async (req, res) => {
+	index: async (req, res, next, isRaw) => {
 		try {
 			const users = await User.find();
 
@@ -11,10 +13,9 @@ module.exports = {
 
 			res.json({
 				confirmation: 'success',
-				result: list
+				result: isRaw ? users : list
 			})
 
-			
 		} catch (e) {
 			res.json({
 				confirmation: 'fail',
@@ -23,7 +24,7 @@ module.exports = {
 		}
 	},
 
-	view: async (req, res) => {
+	view: async (req, res, next, isRaw) => {
 		const id = req.params.id;
 
 		try {
@@ -31,7 +32,7 @@ module.exports = {
 
 			res.json({
 				confirmation: 'success',
-				result: user.summary()
+				result: isRaw ? user : user.summary()
 			});
 		} catch (e) {
 			res.json({
@@ -65,10 +66,15 @@ module.exports = {
 		try {
 			let user = await User.create(req.body);
 
+			const token = jwt.sign({id: user.id}, process.env.TOKEN_SECRET, {expiresIn: 4000});
+			req.session.token = token;
+
 			res.json({
 				confirmation: 'success',
-				message: user
+				result: user.summary(),
+				token: token
 			});
+
 		} catch (e) {
 			res.json({
 				confirmation: 'fail',

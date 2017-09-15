@@ -5,15 +5,19 @@ import './index.css';
 import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './store';
-
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-// import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 
 injectTapEventPlugin();
 
 const app = (
 	<Provider store={configureStore()}>
-		<App />
+		<Router>
+			<div>
+				<Route exact path="/" component={App} />
+			</div>
+		</Router>
 	</Provider>
 )
 

@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const controllers = require('../controllers');
 
+/*
+	GENERIC RESOURCE ROUTES
+ */
+
 router.get('/:resource', (req, res, next) => {
 	const resource = req.params.resource;
 	const controller = controllers[resource];
@@ -12,7 +16,7 @@ router.get('/:resource', (req, res, next) => {
 		});
 	}
 
-	controller.index(req, res, next);
+	controller.index(req, res, next, false);
 });
 
 router.get('/:resource/:id', (req, res, next) => {
@@ -26,7 +30,7 @@ router.get('/:resource/:id', (req, res, next) => {
 		});
 	}
 
-	controller.view(req, res, next);
+	controller.view(req, res, next, false);
 });
 
 router.post('/:resource', (req, res, next) => {
