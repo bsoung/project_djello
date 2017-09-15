@@ -4,7 +4,8 @@ import LoginForm from '../../containers/LoginForm';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import './Landing.css';
 
-export default (props) => {
+export default ({ userActions, form }) => {
+	console.log(userActions, 'actions', form, 'form')
 	return (
 		<div className="parallax">
 	    <div id="group4" className="parallax__group">
@@ -29,7 +30,10 @@ export default (props) => {
 	      <div className="parallax__layer parallax__layer--fore">
 	        <div className="title login-box">
 	        	<MuiThemeProvider>
-	        		<LoginForm />
+	        		<LoginForm 
+	        			register={userActions.registerUser}
+	        			formData={form}
+	        		/>
 	        	</MuiThemeProvider>
 	        </div>
 	      </div>

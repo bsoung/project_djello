@@ -46,56 +46,96 @@ const renderTextField = ({
     {...custom}
   />
 
-
-class LoginForm extends Component {
-
-	onHandleSend = () => {
-		const { form, userActions, userReducer } = this.props;
-
-		const formInput = form.LoginForm.values;
-		
-		userActions.registerUser(formInput)
-			.then(() => {
-			alert('saved!!!!')
-		})
-	}
-
-	render() {
-		console.log(this.props, 'props')
-		const { handleSubmit, pristine, reset, submitting, sendValuesAction, userActions } = this.props
-		return (
-		    <form onSubmit={handleSubmit(this.onHandleSend)}>
-		    	<h3>Register</h3>
-		    	<div>
-		        <Field name="username" component={renderTextField} label="Username" required="required" />
-		      </div>
-		      <div>
-		        <Field name="email" component={renderTextField} label="Email" required="required" />
-		      </div>
-		      <div>
-		        <Field name="password" type="password" component={renderTextField} label="Password" required="required" />
-		      </div>
-
-		      <div>
-		        <button type="submit" disabled={pristine || submitting}>
-		          Submit
-		        </button>
-		        <button type="button" disabled={pristine || submitting} onClick={reset}>
-		          Clear Values
-		        </button>
-		      </div>
-		    </form>
-		  )
-		}
+const isEmpty = (obj) => {
+  for(var key in obj) {
+      if(obj.hasOwnProperty(key))
+          return false;
+  }
+  return true;
 }
 
-const mapStateToProps = state => state;
+// register(formData.LoginForm.values)
+const LoginForm = ({ handleSubmit, pristine, reset, submitting, register, formData }) => {
+    const onSubmit = () => {
+      register(formData.LoginForm.values);
+    }
 
-const mapDispatchToProps = dispatch => ({
-  userActions: bindActionCreators(userActions, dispatch)
-});
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <h3>Register</h3>
+        <div>
+          <Field name="username" component={renderTextField} label="Username" required="required" />
+        </div>
+        <div>
+          <Field name="email" component={renderTextField} label="Email" required="required" />
+        </div>
+        <div>
+          <Field name="password" type="password" component={renderTextField} label="Password" required="required" />
+        </div>
 
-LoginForm = connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+        <div>
+          <button type="submit" disabled={pristine || submitting}>
+            Submit
+          </button>
+          <button type="button" disabled={pristine || submitting} onClick={reset}>
+            Clear Values
+          </button>
+        </div>
+      </form>
+    )
+
+}
+
+
+// class LoginForm extends Component {
+
+// 	onHandleSend = () => {
+// 		const { form, userActions, userReducer } = this.props;
+
+// 		const formInput = form.LoginForm.values;
+		
+// 		userActions.registerUser(formInput)
+// 			.then(() => {
+// 			alert('saved!!!!')
+// 		})
+// 	}
+
+// 	render() {
+// 		console.log(this.props, 'props')
+// 		const { handleSubmit, pristine, reset, submitting, sendValuesAction, userActions } = this.props
+// 		return (
+// 		    <form onSubmit={handleSubmit(this.onHandleSend)}>
+// 		    	<h3>Register</h3>
+// 		    	<div>
+// 		        <Field name="username" component={renderTextField} label="Username" required="required" />
+// 		      </div>
+// 		      <div>
+// 		        <Field name="email" component={renderTextField} label="Email" required="required" />
+// 		      </div>
+// 		      <div>
+// 		        <Field name="password" type="password" component={renderTextField} label="Password" required="required" />
+// 		      </div>
+
+// 		      <div>
+// 		        <button type="submit" disabled={pristine || submitting}>
+// 		          Submit
+// 		        </button>
+// 		        <button type="button" disabled={pristine || submitting} onClick={reset}>
+// 		          Clear Values
+// 		        </button>
+// 		      </div>
+// 		    </form>
+// 		  )
+// 		}
+// }
+
+// const mapStateToProps = state => state;
+
+// const mapDispatchToProps = dispatch => ({
+//   userActions: bindActionCreators(userActions, dispatch)
+// });
+
+// LoginForm = connect(mapStateToProps, mapDispatchToProps)(LoginForm)
 
 export default reduxForm({
   form: 'LoginForm', 

@@ -108,13 +108,13 @@ module.exports = {
 			const token = jwt.sign({id: user._id}, process.env.TOKEN_SECRET, {expiresIn: 4000});
 			req.session.token = token;
 
-			res.json({
+			return res.json({
 				confirmation: 'success',
 				user: user.summary()
 			});
 
 		} catch (e) {
-			res.json({
+			return res.json({
 				confirmation: 'fail',
 				message: e.message
 			});
@@ -148,7 +148,7 @@ module.exports = {
 			const token = jwt.sign({id: user.id}, process.env.TOKEN_SECRET, {expiresIn: 4000});
 			req.session.token = token;
 
-			res.json({
+			return res.json({
 				confirmation: 'success',
 				result: user.summary(),
 				token: token

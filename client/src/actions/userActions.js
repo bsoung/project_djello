@@ -1,32 +1,5 @@
 import { AsyncManager } from '../services';
 import userConstants from '../constants/userConstants';
-import _ from 'lodash';
-
-// const getRequest = (path, params, actionType, cb) => {
-// 	return async (dispatch) => {
-// 		try {
-// 			const response = await APIManager.get(path, params);
-
-// 			const payload = response.results || response.result || response.user;
-
-// 			dispatch({
-// 				type: actionType,
-// 				payload: payload,
-// 				params: params
-// 			})
-
-// 			if (_.isFunction(cb)) {
-// 				cb(payload);
-// 			}
-
-// 			return response;
-
-// 		} catch (e) {
-// 			console.log(e, 'error');
-// 			throw e;
-// 		}
-// 	}	
-// }
 
 export function fetchAllUsers() {
 	return dispatch => dispatch(AsyncManager.getRequest('/api/users', null, userConstants.GET_USERS_SUCCESS));
@@ -34,6 +7,10 @@ export function fetchAllUsers() {
 
 export function registerUser(credentials) {
 	return dispatch => dispatch(AsyncManager.postRequest('/api/users', credentials, userConstants.SAVE_USERS_SUCCESS));
+}
+
+export function loginUser(credentials) {
+	return dispatch => dispatch(AsyncManager.postRequest('/account/login', credentials, userConstants.LOGIN_USERS_SUCCESS));
 }
 
 export function getUsersRequest() {

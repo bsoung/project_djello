@@ -2,6 +2,7 @@ import userConstants from '../constants/userConstants';
 import _ from 'lodash';
 
 const initialState = {
+	user: null,
 	users: [],
 	isFetching: false,
 	error: null
@@ -37,6 +38,10 @@ export default (state = initialState, action = {}) => {
 			updated.isFetching = false;
 			updated.error = action.payload;
 
+			return updated;
+
+		case userConstants.LOGIN_USERS_SUCCESS:
+			updated.user = action.payload;
 			return updated;
 
 		default:
