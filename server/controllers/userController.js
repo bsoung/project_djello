@@ -42,6 +42,85 @@ module.exports = {
 		}
 	},
 
+	get: async (req, res, next) => {
+		const action = req.params.action;
+
+		if (action === currentuser && !req.session) {
+			return res.json({
+				confirmation: 'success',
+				user: null
+			});
+		}
+
+		if (!req.session.token) {
+			return res.json({
+				confirmation: 'success',
+				user: null
+			});
+		}
+
+		try {
+			const decoded = await jwt.verify(req.session.token, process.env.TOKEN_SECRET);
+			const user = await User.findById(decoded.id);
+
+			return res.json({
+				confirmation: 'success',
+				user: user
+			});
+
+		} catch (e) {
+			req.session.destroy();
+			
+			return res.json({
+					confirmation: 'fail',
+					message: e,
+					user: null
+				});
+		}
+	},
+
+	logout: async (req, res, next) => {
+		req.session.destroy();
+
+		return res.json({
+			confirmation: 'success',
+			user: null
+		});
+	},
+
+	login: async (req, res, next) => {
+		try {
+			const results = await User.find({email: req.body.email});
+
+			if (results.length == 0) {
+				throw new Error('User not found.');
+			}
+
+			const user = results[0];
+			console.log(req.body.password, user.password, 'passwords')
+			const isPasswordCorrect = bcrypt.compareSync(req.body.password, user.password);
+
+			if (isPasswordCorrect == false) {
+				throw new Error('Wrong password.');
+				return;
+			}
+
+			const token = jwt.sign({id: user._id}, process.env.TOKEN_SECRET, {expiresIn: 4000});
+			req.session.token = token;
+
+			res.json({
+				confirmation: 'success',
+				user: user.summary()
+			});
+
+		} catch (e) {
+			res.json({
+				confirmation: 'fail',
+				message: e.message
+			});
+		}
+	},
+
 	create: async (req, res, next) => {
 		let existingUser;
 
