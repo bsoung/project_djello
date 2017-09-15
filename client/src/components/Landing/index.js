@@ -1,61 +1,115 @@
-import React from 'react';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Header from '../Header';
+import SignupForm from '../../containers/SignupForm';
 import LoginForm from '../../containers/LoginForm';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import './Landing.css';
 
-export default ({ userActions, form }) => {
-	console.log(userActions, 'actions', form, 'form')
-	return (
-		<div className="parallax">
-	    <div id="group4" className="parallax__group">
-	    	<div className="parallax__layer parallax__layer--fore">
-	    		<Header />
-	        <div className="title foreground-box">
-	        	<h1>Djello</h1>
-	        </div>
-	      </div>
-	      <div className="parallax__layer parallax__layer--base">
-	        <div className="title">Layer1</div>
-	      </div>
-	      <div className="parallax__layer parallax__layer--back">
-	        <div className="title">Layer2</div>
-	      </div>
-	      <div className="parallax__layer parallax__layer--deep">
-	        <div className="title">Layer3</div>
-	      </div>
+export default class Landing extends Component {
+	constructor() {
+		super();
 
-	    </div>
-	    <div id="group5" className="parallax__group">
-	      <div className="parallax__layer parallax__layer--fore">
-	        <div className="title login-box">
-	        	<MuiThemeProvider>
-	        		<LoginForm 
-	        			register={userActions.registerUser}
-	        			formData={form}
-	        		/>
-	        	</MuiThemeProvider>
-	        </div>
-	      </div>
-	      <div className="parallax__layer parallax__layer--base">
-	        <div className="title">Base Layer</div>
-	      </div>
-	    </div>
-	    <div id="group6" className="parallax__group">
-	      <div className="parallax__layer parallax__layer--back">
-	        <div className="title">Background Layer</div>
-	      </div>
-	      <div className="parallax__layer parallax__layer--base">
-	        <div className="title">Base Layer</div>
-	      </div>
-	    </div>
-	    <div id="group7" className="parallax__group">
-	      <div className="parallax__layer parallax__layer--base">
-	        <div className="title">Base Layer</div>
-	      </div>
-	    </div>
-	  </div>
-	)
+		this.state = {
+			showLogin: false,
+			showRegister: true
+		}
+	}
+
+	onClickScrollRegister = (e) => {
+			const loginNode = ReactDOM.findDOMNode(this.refs.accountBox)
+			loginNode.scrollIntoView();
+
+			this.setState({
+				showRegister: true,
+				showLogin: false
+			})
+		}
+	
+
+	onClickScrollLogin = (e) => {
+		const loginNode = ReactDOM.findDOMNode(this.refs.accountBox)
+		loginNode.scrollIntoView();
+
+		this.setState({
+			showRegister: false,
+			showLogin: false
+		})
+		
+	}
+
+
+	render() {
+		const { userActions, form } = this.props;
+
+		const registerForm = (
+				<MuiThemeProvider>
+        		<SignupForm 
+        			register={userActions.registerUser}
+        			formData={form}
+        		/>
+		    </MuiThemeProvider>
+			)
+
+		const loginForm = (
+			<MuiThemeProvider>
+				<LoginForm 
+					login={userActions.loginUser} 
+					formData={form} 
+				/>
+			</MuiThemeProvider>
+		)
+
+		return (
+			<div className="parallax">
+		    <div id="group4" className="parallax__group">
+		    	<div className="parallax__layer parallax__layer--fore">
+		    		<header className="header">
+							<p>Djello</p>
+							<a onClick={this.onClickScrollRegister} >Register</a>
+							<a onClick={this.onClickScrollLogin} >Login</a>
+						</header>
+		        <div className="title foreground-box">
+		        	<h1>Djello</h1>
+		        </div>
+		      </div>
+		      <div className="parallax__layer parallax__layer--base">
+		        <div className="title">base</div>
+		      </div>
+		      <div className="parallax__layer parallax__layer--back">
+		        <div className="title">background</div>
+		      </div>
+		      <div className="parallax__layer parallax__layer--deep">
+		        <div className="title">deep background</div>
+		      </div>
+
+		    </div>
+		    <div id="group5" className="parallax__group" ref="accountBox">
+		      <div className="parallax__layer parallax__layer--fore">
+		        <div className="title register-box">
+		        	{this.state.showRegister ? registerForm : loginForm}
+		        </div>
+		      </div>
+		      <div className="parallax__layer parallax__layer--base">
+		        <div className="title">Base Layer</div>
+		      </div>
+		    </div>
+		    <div id="group6" className="parallax__group">
+		      <div className="parallax__layer parallax__layer--back">
+		        <div className="title">Background Layer</div>
+		      </div>
+		      <div className="parallax__layer parallax__layer--base">
+		        <div className="title">Base Layer</div>
+		      </div>
+		    </div>
+		    <div id="group7" className="parallax__group">
+		      <div className="parallax__layer parallax__layer--base">
+		        <div className="title">Base Layer</div>
+		      </div>
+		    </div>
+		  </div>
+		)
+	}
 }
 
 /*

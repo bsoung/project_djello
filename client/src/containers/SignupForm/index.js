@@ -3,8 +3,6 @@ import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 
 
-
-
 import asyncValidate from '../../services/AsyncValidate';
 
 const validate = values => {
@@ -50,12 +48,11 @@ const isEmpty = (obj) => {
   return true;
 }
 
-// register(formData.LoginForm.values)
-const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData }) => {
+const SignupForm = ({ handleSubmit, pristine, reset, submitting, register, formData }) => {
     const onSubmit = () => {
-      login(formData.LoginForm.values)
+      register(formData.SignupForm.values)
         .then(() => {
-          alert('Successfully logged in!')
+          alert("User created")
         })
         .catch((e) => {
           alert(e.message);
@@ -64,16 +61,20 @@ const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData 
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h3>Login</h3>
+        <h3>Register</h3>
+        <div>
+          <Field name="username" component={renderTextField} label="Username" required="required" />
+        </div>
         <div>
           <Field name="email" component={renderTextField} label="Email" required="required" />
         </div>
         <div>
           <Field name="password" type="password" component={renderTextField} label="Password" required="required" />
         </div>
+
         <div>
           <button type="submit" disabled={pristine || submitting}>
-            Login
+            Register
           </button>
           <button type="button" disabled={pristine || submitting} onClick={reset}>
             Reset
@@ -85,8 +86,9 @@ const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData 
 }
 
 export default reduxForm({
-  form: 'LoginForm', 
+  form: 'SignupForm', 
   validate,
   asyncValidate
-})(LoginForm)
+})(SignupForm)
+
 
