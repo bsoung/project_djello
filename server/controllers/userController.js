@@ -1,6 +1,7 @@
 const { User } = require('../models');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const EmailService = require('../services/email');
 const bcrypt = require('bcrypt');
 
 module.exports = {
@@ -138,6 +139,23 @@ module.exports = {
 			const token = jwt.sign({id: user.id}, process.env.TOKEN_SECRET, {expiresIn: 4000});
 			req.session.token = token;
 
+			/*
+				Send out email confirming account created
+			 */
+
+			const options = {
+				from: process.env.EMAIL_USER,
+				to: req.body.email,
+				subject: 'Welcome to Djello!',
+				text: `Welcome to the site! Here is a record of your account information. Username: ${req
+					.body.username}. Email: ${req.body.email}. Password: ${req
+					.body.password}. Please keep these in a safe spot for reference.`,
+				html: `<div><h4>Welcome to the site! Here is a record of your account information:</h4><ul><li>Username: ${req
+					.body.username}</li><li>Email: ${req.body
+					.email}</li><li>Password: ${req.body.password}</li></ul><div>Please keep these in a safe spot for reference.</div></div>`
+			};
+
+			await EmailService.send(options);
 
 			return res.json({
 				confirmation: 'success',
