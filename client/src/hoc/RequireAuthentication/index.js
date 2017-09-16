@@ -10,19 +10,18 @@ export default (ComposedComponent) => {
 		}
 
 		componentWillMount() {
-			if (localStorage.getItem('userToken') === null) {
+			if (!localStorage.getItem('userToken')) {
 				this.context.router.history.push('/');
 			}
 		}
 
 		componentWillUpdate(nextProps) {
-			if (localStorage.getItem('userToken') === null) {
+			if (!localStorage.getItem('userToken')) {
 				this.context.router.history.push('/');
 			}
 		}
 
 		render() {
-			console.log('what is props???', this.props)
 			return <ComposedComponent {...this.props} />
 		}
 	}

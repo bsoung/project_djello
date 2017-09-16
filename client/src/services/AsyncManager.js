@@ -20,12 +20,14 @@ const _get = async (url, params=null) => {
 }
 
 const _post = async (url, params=null) => {
+	console.log(url, 'what is this?')
 	try {
 			const response = await superagent
 				.post(url)
 				.set('Accept', 'application/json')
 				.send(params);
 
+			console.log(response, 'what is the response?')
 
 			if (response.body && response.body.confirmation !== 'success') {
 				throw new Error(response.body.message);
@@ -42,8 +44,7 @@ export default {
 	getRequest: (path, params, actionType, cb) => async dispatch => {
 		try {
 			const response = await _get(path, params);
-
-			const payload = response.results || response.result || response.user;
+			const payload = response.result || response;
 
 			dispatch({
 				type: actionType,
@@ -58,7 +59,6 @@ export default {
 			return response;
 
 		} catch (e) {
-			console.log(e, 'error');
 			throw e;
 		}
 	},
@@ -66,10 +66,9 @@ export default {
 	postRequest: (path, params, actionType, cb) => async dispatch => {
 		try {
 			const response = await _post(path, params);
+			const payload = response.result || response;
 
 			localStorage.setItem('userToken', response.token);
-
-			const payload = response.results || response.result || response.user;
 
 			dispatch({
 				type: actionType,
@@ -83,7 +82,6 @@ export default {
 			return response;
 
 		} catch (e) {
-			console.log(e, 'error');
 			throw e;
 		}
 	}

@@ -43,19 +43,17 @@ module.exports = {
 	},
 
 	get: async (req, res, next) => {
-		const action = req.params.action;
-
-		if (action === currentuser && !req.session) {
+		if (!req.session) {
 			return res.json({
 				confirmation: 'success',
-				user: null
+				result: null
 			});
 		}
 
 		if (!req.session.token) {
 			return res.json({
 				confirmation: 'success',
-				user: null
+				result: null
 			});
 		}
 
@@ -65,7 +63,7 @@ module.exports = {
 
 			return res.json({
 				confirmation: 'success',
-				user: user
+				result: user.summary()
 			});
 
 		} catch (e) {
@@ -74,7 +72,7 @@ module.exports = {
 			return res.json({
 					confirmation: 'fail',
 					message: e,
-					user: null
+					result: null
 				});
 		}
 	},
@@ -84,7 +82,7 @@ module.exports = {
 
 		return res.json({
 			confirmation: 'success',
-			user: null
+			result: null
 		});
 	},
 
@@ -97,7 +95,6 @@ module.exports = {
 			}
 
 			const user = results[0];
-			console.log(req.body.password, user.password, 'passwords')
 			const isPasswordCorrect = bcrypt.compareSync(req.body.password, user.password);
 
 			if (isPasswordCorrect == false) {
@@ -108,11 +105,9 @@ module.exports = {
 			const token = jwt.sign({id: user._id}, process.env.TOKEN_SECRET, {expiresIn: 4000});
 			req.session.token = token;
 
-			console.log('what is the token??', token)
-
 			return res.json({
 				confirmation: 'success',
-				user: user.summary(),
+				result: user.summary(),
 				token: token
 			});
 
@@ -125,10 +120,9 @@ module.exports = {
 	},
 
 	create: async (req, res, next) => {
-		let existingUser;
 
 		try {
-			existingUser = await User.findOne({
+			const existingUser = await User.findOne({
 				email: req.body.email
 			});
 
@@ -138,15 +132,8 @@ module.exports = {
 					message: 'User already exists'
 				});
 			}
-		} catch (e) {
-			res.json({
-				confirmation: 'fail',
-				message: e.message
-			});
-		}
 
-		try {
-			let user = await User.create(req.body);
+			const user = await User.create(req.body);
 
 			const token = jwt.sign({id: user.id}, process.env.TOKEN_SECRET, {expiresIn: 4000});
 			req.session.token = token;

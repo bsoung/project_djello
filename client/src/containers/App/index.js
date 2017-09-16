@@ -1,26 +1,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import * as userActions from '../../actions/userActions';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Landing from '../../components/Landing';
+import Dashboard from '../../containers/Dashboard';
+import RequireAuthentication from '../../hoc/RequireAuthentication';
+
 import logo from '../../logo.svg';
 import './App.css';
 
 class App extends Component {
   componentDidMount() {
-    const { userActions } = this.props;
+    const { userActions, userReducer } = this.props;
 
-    userActions.fetchAllUsers().then(() => {
-    }).catch(e => console.log)
+    if (userReducer.user !== null) {
+      return;
+    }
+
+    userActions.checkCurrentUser();
+  }
+
+  componentDidUpdate() {
+    userActions.checkCurrentUser();
   }
 
   render() {
+    const AuthedDashboard = RequireAuthentication(Dashboard)
+
     return (
-      <div>
-        <Landing {...this.props} />
-      </div>
+        <Router>
+          <div>
+            <Route exact path="/" render={() => <Landing {...this.props} />} />
+            <Route path="/dashboard" render={() => <AuthedDashboard {...this.props} />} />
+          </div>
+        </Router>
     );
   }
 }
@@ -32,3 +48,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+
