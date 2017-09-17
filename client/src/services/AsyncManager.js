@@ -27,8 +27,6 @@ const _post = async (url, params=null) => {
 				.set('Accept', 'application/json')
 				.send(params);
 
-			console.log(response, 'what is the response?')
-
 			if (response.body && response.body.confirmation !== 'success') {
 				throw new Error(response.body.message);
 			}
@@ -44,7 +42,9 @@ export default {
 	getRequest: (path, params, actionType, cb) => async dispatch => {
 		try {
 			const response = await _get(path, params);
-			const payload = response.result || response;
+			const payload = response.hasOwnProperty('result') ? response.result : response;
+
+			console.log(payload, 'what is the payload??')
 
 			dispatch({
 				type: actionType,
@@ -66,9 +66,7 @@ export default {
 	postRequest: (path, params, actionType, cb) => async dispatch => {
 		try {
 			const response = await _post(path, params);
-			const payload = response.result || response;
-
-			localStorage.setItem('userToken', response.token);
+			const payload = response.hasOwnProperty('result') ? response.result : response;
 
 			dispatch({
 				type: actionType,
