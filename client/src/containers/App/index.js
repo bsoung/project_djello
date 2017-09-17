@@ -13,14 +13,6 @@ import logo from '../../logo.svg';
 import './App.css';
 
 class App extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      isAuthenticated: false
-    }
-  }
-
   componentDidMount() {
     const { userActions, userReducer } = this.props;
 
@@ -28,25 +20,14 @@ class App extends Component {
       return;
     }
 
-    userActions.checkCurrentUser().then(() => {
-      this.checkUser(userReducer.user);
-    });
+    userActions.checkCurrentUser();
   }
 
   componentWillReceiveProps(nextProps) { 
-    this.checkUser(nextProps.userReducer.user);
+    userActions.checkCurrentUser();
   }
 
-  checkUser = (user) => {
-    console.log(this.context, 'context?')
-    if (user !== null) {
-      this.setState({
-        isAuthenticated: true
-      })
-      console.log("user is not null anymore")
-    }
 
-  } 
   
   render() {
     // TODO error: You tried to redirect to the same route you're currently on:
@@ -55,7 +36,7 @@ class App extends Component {
           <div>
             <Route exact path="/" render={() => <Landing {...this.props} />} />
             <Route path="/dashboard" render={() => <Dashboard {...this.props} />} />
-            {this.state.isAuthenticated && <Redirect to="/dashboard" push={true} />}
+            {(this.props.userReducer.user && window.location.pathname === '/') && <Redirect to="/dashboard" push={true} />}
           </div>
         </Router>
     );

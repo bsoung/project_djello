@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 class Dashboard extends Component {
-	static contextTypes = { 
-			router: PropTypes.object
-		}
-
-	componentDidUpdate() {
-		if (!this.props.userReducer.user) {
-			this.context.router.history.push('/');
-		}
-	}
 
 	handleLogout = () => {
 		this.props.userActions.logoutUser();
@@ -22,6 +12,7 @@ class Dashboard extends Component {
 			<div>
 				Dashboard
 				<button onClick={this.handleLogout}>Logout</button>
+				{(!this.props.userReducer.user && window.location.pathname === '/dashboard') && <Redirect to="/" push={true} />}
 			</div>
 		)
 	}

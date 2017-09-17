@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 const initialState = {
 	user: null,
+	isAuthenticated: false,
 	users: [],
 	isFetching: false,
 	error: null
@@ -32,6 +33,10 @@ export default (state = initialState, action = {}) => {
 		case userConstants.SET_USER_SUCCESS:
 			updated.user = action.payload;
 			console.log(updated, 'reducer')
+			return updated;
+
+		case userConstants.SET_USER_AUTHENTICATED:
+			updated.isAuthenticated = action.payload;
 			return updated;
 
 		// case userConstants.SAVE_USER_FAILURE:

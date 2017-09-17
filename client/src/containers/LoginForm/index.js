@@ -50,9 +50,7 @@ const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData,
     const onSubmit = () => {
       login(formData.LoginForm.values)
         .then(() => {
-          alert('Successfully logged in!')
-          let token = localStorage.getItem("userToken");
-          console.log(token, 'what is token???')
+
         })
         .catch((e) => {
           alert(e.message);
