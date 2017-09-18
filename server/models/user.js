@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
+
+const autoPopulateBoards = function(next) {
+	this.populate("boards");
+	next();
+};
 
 const UserSchema = mongoose.Schema({
 	username: { type: String, required: true, unique: true },
@@ -16,13 +20,7 @@ const UserSchema = mongoose.Schema({
 	timestamp: { type: Date, default: Date.now },
 });
 
-UserSchema.pre("save", async function(next) {
-	const user = this;
-	const hash = await bcrypt.hashSync(user.password, 12);
-
-	user.password = hash;
-	next();
-});
+UserSchema.pre("find", autoPopulateBoards);
 
 UserSchema.methods.summary = function() {
 	const summary = {

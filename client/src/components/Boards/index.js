@@ -57,8 +57,21 @@ const tilesData = [
  * A simple example of a scrollable `GridList` containing a [Subheader](/#/components/subheader).
  */
 class GridListExampleSimple extends Component {
-  handeNewBoard = () => {
+  componentDidMount() {
+    const { boardReducer, boardActions, userReducer } = this.props;
 
+    if (userReducer.user && !boardReducer.boards.length) {
+      boardActions.setUserBoards(userReducer.user.boards);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) { 
+    const { boardReducer, boardActions, userReducer } = this.props;
+
+    if (boardReducer.board !== nextProps.boardReducer.board) {
+      console.log('hit!!!')
+      boardActions.setUserBoards(userReducer.user.boards);
+    }
   }
 
   render() {
@@ -75,15 +88,16 @@ class GridListExampleSimple extends Component {
           className="gridlist"
         >
           <Subheader>Boards</Subheader>
-          {tilesData.map((tile) => (
+
+          {!this.props.boardReducer.boards.length ? <p>You have not created any boards yet!</p> : this.props.boardReducer.boards.map((board) => (
             <GridTile
-              key={tile.title}
-              title={tile.title}
-              subtitle={<span>by <b>{tile.author}</b></span>}
+              key={board.name}
+              title={board.name}
+              subtitle={<span>by <b>{board.author}</b></span>}
               actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
               className="gridtile"
             >
-              <img src={tile.img} />
+              <img src='http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg' />
             </GridTile>
           ))}
         </GridList>

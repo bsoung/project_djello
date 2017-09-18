@@ -12,7 +12,9 @@ import ActionInfo from 'material-ui/svg-icons/action/info';
 
 class Sidebar extends Component {
   handleLogout = () => {
-    this.props.userActions.logoutUser();
+    this.props.userActions.logoutUser().then(() => {
+      this.props.boardActions.setUserBoards([]);
+    })
   }
 
   render() {

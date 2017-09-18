@@ -103,7 +103,7 @@ module.exports = {
 				return;
 			}
 
-			const token = jwt.sign({id: user._id}, process.env.TOKEN_SECRET, {expiresIn: 4000});
+			const token = jwt.sign({id: user._id}, process.env.TOKEN_SECRET, {expiresIn: '1d'});
 			req.session.token = token;
 
 			return res.json({
@@ -134,9 +134,14 @@ module.exports = {
 				});
 			}
 
+			const hash = await bcrypt.hashSync(req.body.password, 12);
+			req.body.password = hash;
+
+			console.log(req.body, 'saved info')
+
 			const user = await User.create(req.body);
 
-			const token = jwt.sign({id: user.id}, process.env.TOKEN_SECRET, {expiresIn: 4000});
+			const token = jwt.sign({id: user.id}, process.env.TOKEN_SECRET, {expiresIn: '1d'});
 			req.session.token = token;
 
 			/*
