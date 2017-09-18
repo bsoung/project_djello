@@ -20,7 +20,6 @@ const _get = async (url, params=null) => {
 }
 
 const _post = async (url, params=null) => {
-	console.log(url, 'what is this?')
 	try {
 			const response = await superagent
 				.post(url)
@@ -40,11 +39,10 @@ const _post = async (url, params=null) => {
 
 export default {
 	getRequest: (path, params, actionType, cb) => async dispatch => {
+			console.log(params, 'what is this? in asyncmanager')
 		try {
 			const response = await _get(path, params);
 			const payload = response.hasOwnProperty('result') ? response.result : response;
-
-			console.log(payload, 'what is the payload??')
 
 			dispatch({
 				type: actionType,

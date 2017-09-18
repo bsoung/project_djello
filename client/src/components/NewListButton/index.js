@@ -47,7 +47,7 @@ const renderTextField = ({
 /**
  * Dialog content can be scrollable.
  */
-class NewBoardButton extends Component {
+class NewListButton extends Component {
   state = {
     open: false,
   };
@@ -60,22 +60,20 @@ class NewBoardButton extends Component {
     this.setState({open: false});
   };
 
-  handleNewBoard = () => {
-    const { dataForm, createNewBoard, user } = this.props;
+  handleNewList = () => {
+    // const { dataForm, createNewBoard, user } = this.props;
 
-    const payload = {
-      email: user.email,
-      data: {
-        name: dataForm.NewBoardForm.values.name,
-        author: user.id
-      } 
-    }
+    // const payload = {
+    //   email: user.email,
+    //   data: {
+    //     name: dataForm.NewBoardForm.values.name,
+    //     author: user.id
+    //   } 
+    // }
 
-    console.log(payload, 'what is payload')
-
-    createNewBoard(payload)
-      .then(() => { this.handleClose(); })
-      .catch((e) => { alert(e.message)})
+    // createNewBoard(payload)
+    //   .then(() => { this.handleClose(); })
+    //   .catch((e) => { alert(e.message)})
   }
 
   render() {
@@ -100,12 +98,12 @@ class NewBoardButton extends Component {
 
     return (
       <div> 
-        <FloatingActionButton onClick={this.handleOpen} className="board-btn-box">
+        <FloatingActionButton onClick={this.handleOpen} className="list-btn-box">
           <ContentAdd />
         </FloatingActionButton>
 
         <Dialog
-          title="Create a new board"
+          title="Create a new List"
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
@@ -129,8 +127,8 @@ class NewBoardButton extends Component {
 }
 
 export default reduxForm({
-  form: 'NewBoardForm', 
+  form: 'NewListForm', 
   validate,
   asyncValidate
-})(NewBoardButton)
+})(NewListButton)
 

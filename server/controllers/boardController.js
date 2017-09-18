@@ -5,7 +5,17 @@ const mongoose = require('mongoose');
 module.exports = {
 	index: async (req, res) => {
 		try {
-			const boards = await Board.find();
+			const id = req.query.authorId;
+			console.log(req.query)
+			let params = {
+				author: id
+			}
+
+			if (!id) {
+				params = {};
+			}
+
+			const boards = await Board.find(params).populate('members').populate('author');
 
 			res.json({
 				confirmation: 'success',

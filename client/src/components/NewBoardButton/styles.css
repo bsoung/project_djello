@@ -1,0 +1,6 @@
+.board-btn-box {
+	left: 94%;
+	top: 2%;
+	position: absolute;
+	z-index: 999;
+}

@@ -11,9 +11,3 @@
   height: 99.7vh;
   overflow-y: auto;
 }
-
-.floating-btn-box {
-	left: 92%;
-	position: absolute;
-	z-index: 999;
-}

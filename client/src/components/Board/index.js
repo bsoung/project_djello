@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Sidebar from '../../components/Sidebar';
-import Boards from '../../components/Boards';
 import { Redirect } from 'react-router-dom';
+import Sidebar from '../Sidebar';
+import Lists from '../Lists';
 
 const styles = {
 	boardBox: {
@@ -16,24 +16,25 @@ const styles = {
 	}
 }
 
-class Dashboard extends Component {
+class Board extends Component {
+	// componentDidMount() {
 
-	render() {
-		return (
-			<div>
+	// }
+
+  render() {
+  	console.log(this.props.boardReducer, 'boardReducer')
+    return (
+     <div className="board">
 				<div style={styles.boardBox}>
-					<Boards 
-						{...this.props} 
-					/>
+					<Lists />
 				</div>
 
 				<div style={styles.sidebarBox}>
 					<Sidebar {...this.props} />
 				</div>
-				{(!this.props.userReducer.user) && <Redirect to="/" push={true} />}
 			</div>
-		)
-	}
+    );
+  }
 }
 
-export default Dashboard;			
+export default Board;

@@ -6,104 +6,68 @@ import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import NewBoardButton from '../NewBoardButton';
+import { Link } from 'react-router-dom';
 
 import './styles.css';
 
-// TODO: Each obj in this arr will be a Board from db
-const tilesData = [
-  {
-    img: 'http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg',
-    title: 'Djello1',
-    author: 'jill111',
-  },
-  {
-    img: 'http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg',
-    title: 'Djello2',
-    author: 'pashminu',
-  },
-  {
-    img: 'http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg',
-    title: 'Djello3',
-    author: 'Danson67',
-  },
-  {
-    img: 'http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg',
-    title: 'Djello4',
-    author: 'fancycrave1',
-  },
-  {
-    img: 'http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg',
-    title: 'Djello5',
-    author: 'Hans',
-  },
-  {
-    img: 'http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg',
-    title: 'Djello6',
-    author: 'fancycravel',
-  },
-  {
-    img: 'http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg',
-    title: 'Djello7',
-    author: 'jill111',
-  },
-  {
-    img: 'http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg',
-    title: 'Djello8',
-    author: 'BkrmadtyaKarki',
-  },
-];
-
-/**
- * A simple example of a scrollable `GridList` containing a [Subheader](/#/components/subheader).
- */
-class GridListExampleSimple extends Component {
+class Boards extends Component {
   componentDidMount() {
     const { boardReducer, boardActions, userReducer } = this.props;
 
-    if (userReducer.user && !boardReducer.boards.length) {
-      boardActions.setUserBoards(userReducer.user.boards);
+    if (userReducer.user) {
+      console.log(userReducer.user, 'who is the user in board')
+      boardActions.setUserBoards({ authorId: userReducer.user.id });
     }
   }
 
   componentWillReceiveProps(nextProps) { 
     const { boardReducer, boardActions, userReducer } = this.props;
 
-    if (boardReducer.board !== nextProps.boardReducer.board) {
-      console.log('hit!!!')
-      boardActions.setUserBoards(userReducer.user.boards);
+    if (boardReducer.boards.length !== nextProps.boardReducer.boards.length) {
+      boardActions.setUserBoards({ authorId: userReducer.user.id });
     }
   }
 
   render() {
-    console.log(this.props, 'in board')
+    const { form, userReducer, boardActions, boardReducer } = this.props;
+    
+    // render our board
+    const renderBoards = boardReducer.boards.map(board => {
+      return (
+        <GridTile
+          key={board._id}
+          title={board.name}
+          subtitle={<span>by <b>{board.author.username}</b></span>}
+          actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+          className="gridtile"
+        >
+          <Link to={`/dashboard/${board._id}`} onClick={() => boardActions.setCurrentBoard(board._id)}><img src='http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg' /></Link>
+        </GridTile>
+      )
+    })
+
     return (
       <div className="boards">
         <NewBoardButton 
-          dataForm={this.props.form} 
-          user={this.props.userReducer.user} 
-          createNewBoard={this.props.boardActions.createNewBoard} 
+          dataForm={form} 
+          user={userReducer.user} 
+          createNewBoard={boardActions.createNewBoard} 
         />
+
         <GridList
           cellHeight={180}
           className="gridlist"
         >
           <Subheader>Boards</Subheader>
-
-          {!this.props.boardReducer.boards.length ? <p>You have not created any boards yet!</p> : this.props.boardReducer.boards.map((board) => (
-            <GridTile
-              key={board.name}
-              title={board.name}
-              subtitle={<span>by <b>{board.author}</b></span>}
-              actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-              className="gridtile"
-            >
-              <img src='http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg' />
-            </GridTile>
-          ))}
+          {renderBoards}
         </GridList>
       </div>
     );
   }
 }
 
-export default GridListExampleSimple;
+
+
+//  {renderBoards}
+
+export default Boards;

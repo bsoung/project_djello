@@ -16,22 +16,6 @@ class Landing extends Component {
 		}
 	}
 
-	// componentDidMount() {
-	// 	console.log(this.props.userReducer.user, 'what is user?')
-	// 	this.checkUser(this.props.userReducer.user);
-	// }
-
-	// componentWillReceiveProps(nextProps) { // react router lifecycle
-	// 	console.log(nextProps.user, '???')
-	// 	this.checkUser(nextProps.user);
-	// }
-
-	// checkUser = (user) => {
-	// 	if (user) {
-	// 		this.props.history.push('/dashboard');
-	// 	} 
-	// }
-
 	onClickScrollRegister = (e) => {
 			const loginNode = ReactDOM.findDOMNode(this.refs.accountBox)
 			loginNode.scrollIntoView();

@@ -1,0 +1,7 @@
+.lists-box {
+	display: flex;
+	overflow-x: scroll;
+	width: 75vw;
+	height: 99.7vh;
+	margin-left: 10%;
+}

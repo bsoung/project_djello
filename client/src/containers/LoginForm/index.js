@@ -50,7 +50,8 @@ const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData,
     const onSubmit = () => {
       login(formData.LoginForm.values)
         .then(() => {
-
+          // alert("logged in")
+          // window.location.replace('/dashboard');
         })
         .catch((e) => {
           alert(e.message);
