@@ -58,17 +58,22 @@ class NewBoardButton extends Component {
     this.setState({open: false});
   };
 
-  handleNewBoardoard = () => {
-    const { form, boardActions, userReducer } = this.props;
+  handleNewBoard = () => {
+    const { dataForm, createNewBoard, user } = this.props;
 
     const payload = {
-      name: form.NewBoardForm.values.name,
-      author: userReducer.user,
-      members: [userReducer.user]
+      email: user.email,
+      data: {
+        name: dataForm.NewBoardForm.values.name,
+        author: user.id
+      } 
     }
 
-    boardActions.createNewBoard(payload)
-      .then(() => { this.handleClose(); });
+    console.log(payload, 'what is payload')
+
+    createNewBoard(payload)
+      .then(() => { this.handleClose(); })
+      .catch((e) => { alert(e.message)})
   }
 
   render() {

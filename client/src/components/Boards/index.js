@@ -65,7 +65,11 @@ class GridListExampleSimple extends Component {
     console.log(this.props, 'in board')
     return (
       <div className="boards">
-        <NewBoardButton />
+        <NewBoardButton 
+          dataForm={this.props.form} 
+          user={this.props.userReducer.user} 
+          createNewBoard={this.props.boardActions.createNewBoard} 
+        />
         <GridList
           cellHeight={180}
           className="gridlist"

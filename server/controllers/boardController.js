@@ -1,4 +1,6 @@
 const { Board } = require('../models');
+const { User } = require('../models');
+const mongoose = require('mongoose');
 
 module.exports = {
 	index: async (req, res) => {
@@ -36,12 +38,24 @@ module.exports = {
 	},
 
 	create: async (req, res, next) => {
-		try {
-			let board = await Board.create(req.body);
+		try {	
+			const user = await User.findOne({ email: req.body.email });
+			const board = await Board.create(req.body.data);
+
+			if (!user.boards.length) {
+				user.boards = [board._id];
+			  board.members = [user._id];
+			} else {
+				user.boards.push(board._id);
+			  board.members.push(user._id);
+			}
+
+			await user.save();
+			await board.save();
 
 			res.json({
 				confirmation: 'success',
-				message: board
+				result: board
 			});
 		} catch (e) {
 			res.json({
@@ -91,7 +105,7 @@ module.exports = {
 
 			res.status(204).json({
 				confirmation: 'success',
-				message: 'Team deleted'
+				result: 'Team deleted'
 			});
 
 		} catch (e) {

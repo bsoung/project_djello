@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const cors = require('cors')
 const mongoose = require('mongoose');
+const helmet = require('helmet')
 const Promise = require('bluebird');
 
 const app = express();
@@ -51,6 +52,7 @@ app.set('view engine', 'handlebars');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(helmet());
 app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
