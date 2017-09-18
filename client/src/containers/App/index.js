@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import * as userActions from '../../actions/userActions';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import RaisedButton from 'material-ui/RaisedButton';
+import * as boardActions from '../../actions/boardActions';
 import Landing from '../../components/Landing';
 import Dashboard from '../../containers/Dashboard';
-import PropTypes from 'prop-types';
 
 import logo from '../../logo.svg';
 import './App.css';
@@ -46,7 +44,8 @@ class App extends Component {
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
-  userActions: bindActionCreators(userActions, dispatch)
+  userActions: bindActionCreators(userActions, dispatch),
+  boardActions: bindActionCreators(boardActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

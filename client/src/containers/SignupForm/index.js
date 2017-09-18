@@ -1,8 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
-
-
 import asyncValidate from '../../services/AsyncValidate';
 
 const validate = values => {
@@ -39,14 +37,6 @@ const renderTextField = ({
     {...input}
     {...custom}
   />
-
-const isEmpty = (obj) => {
-  for(var key in obj) {
-      if(obj.hasOwnProperty(key))
-          return false;
-  }
-  return true;
-}
 
 const SignupForm = ({ handleSubmit, pristine, reset, submitting, register, formData }) => {
     const onSubmit = () => {

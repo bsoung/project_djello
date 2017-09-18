@@ -1,9 +1,8 @@
-import userConstants from '../constants/userConstants';
+import boardConstants from '../constants/boardConstants';
 
 const initialState = {
-	user: null,
-	isAuthenticated: false,
-	users: [],
+	board: null,
+	boards: [],
 	isFetching: false,
 	error: null
 };
@@ -29,10 +28,10 @@ export default (state = initialState, action = {}) => {
 
 		// 	return updated;
 
-		case userConstants.SET_USER_SUCCESS:
-			updated.user = action.payload;
-			console.log(updated, 'reducer')
+		case boardConstants.CREATE_BOARD_SUCCESS:
+			updated.board = action.payload;
 			return updated;
+
 
 		// case userConstants.SAVE_USER_FAILURE:
 		// 	updated.users = [];

@@ -5,6 +5,7 @@ import './index.css';
 import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './store';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { Provider } from 'react-redux';
 
@@ -12,7 +13,9 @@ injectTapEventPlugin();
 
 const app = (
 	<Provider store={configureStore()}>
-		<App />
+		<MuiThemeProvider>
+			<App />
+		</MuiThemeProvider>
 	</Provider>
 )
 

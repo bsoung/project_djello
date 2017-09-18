@@ -1,0 +1,19 @@
+.boards {
+	display: flex;
+	position: relative;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.gridlist {
+	width: 100%;
+  height: 99.7vh;
+  overflow-y: auto;
+}
+
+.floating-btn-box {
+	left: 92%;
+	position: absolute;
+	z-index: 999;
+}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Header from '../Header';
 import SignupForm from '../../containers/SignupForm';
 import LoginForm from '../../containers/LoginForm';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";

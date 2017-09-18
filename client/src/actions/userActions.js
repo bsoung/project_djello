@@ -21,13 +21,6 @@ export function checkCurrentUser() {
 	return dispatch => dispatch(AsyncManager.getRequest('/account/currentuser', null, userConstants.SET_USER_SUCCESS));
 }
 
-export function setUserAuthenticated(payload) {
-	return {
-		type: userConstants.SET_USER_AUTHENTICATED,
-		payload
-	}
-}
-
 // export function getUsersRequest() {
 // 	return {
 // 		type: userConstants.GET_USERS_REQUEST
