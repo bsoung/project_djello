@@ -13,13 +13,13 @@ class Boards extends Component {
   componentDidMount() {
     const { boardActions, userActions, userReducer, history } = this.props;
 
-    userActions.checkCurrentUser().then(() => {
-      if (!userReducer.user) {
+    userActions.checkCurrentUser().then(user => {
+      if (!user) {
         history.replace('/');
         return;
       }
       
-      boardActions.setUserBoards({ authorId: userReducer.user.id });
+      boardActions.setUserBoards({ authorId: user.id });
     })
 
   }

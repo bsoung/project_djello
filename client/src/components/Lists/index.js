@@ -12,9 +12,15 @@ class Lists extends Component {
     const { listActions, userActions, userReducer, history } = this.props;
     const currentBoardId = window.location.pathname.split('/')[2];
 
-    listActions.setCurrentLists({ boardId: currentBoardId }).then(() => {
-      userActions.checkCurrentUser();
-    })  
+    listActions.setCurrentLists({ boardId: currentBoardId })
+      .then(() => {
+        return userActions.checkCurrentUser();
+      })
+      .then(user => {
+        if (!user) {
+          this.props.history.replace('/');
+        }
+      })
   }
 
   render() {
