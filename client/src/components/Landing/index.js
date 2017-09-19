@@ -13,18 +13,14 @@ class Landing extends Component {
 	}
 
 	componentDidMount() {
-		this.props.userActions.checkCurrentUser().then(user => {
-			if (user) {
-				this.props.history.replace('/dashboard');
-			}
-		});
+		this.props.userActions.checkCurrentUser();
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (this.props.userReducer.user) {
-			this.props.history.replace('/dashboard');
-		}
-	}
+	// componentWillReceiveProps(nextProps) {
+	// 	if (this.props.userReducer.user) {
+	// 		this.props.history.replace('/dashboard');
+	// 	}
+	// }
 
 	onClickScrollRegister = (e) => {
 			const loginNode = ReactDOM.findDOMNode(this.refs.accountBox)

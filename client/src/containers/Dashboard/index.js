@@ -19,8 +19,9 @@ const styles = {
 
 class Dashboard extends Component {
 	componentDidMount() {
+
 		this.props.userActions.checkCurrentUser().then(user => {
-			if (!user) {
+			if (user.result === null) {
 				this.props.history.replace('/');
 			}
 		})

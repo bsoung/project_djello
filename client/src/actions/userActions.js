@@ -1,10 +1,6 @@
 import { AsyncManager } from '../services';
 import userConstants from '../constants/userConstants';
 
-// export function fetchAllUsers() {
-// 	return dispatch => dispatch(AsyncManager.getRequest('/api/users', null, userConstants.GET_USERS_SUCCESS));
-// }
-
 export function registerUser(credentials) {
 	return dispatch => { 
 		dispatch(_setUserLoading(true));

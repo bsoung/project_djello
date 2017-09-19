@@ -17,7 +17,7 @@ class Lists extends Component {
         return userActions.checkCurrentUser();
       })
       .then(user => {
-        if (!user) {
+        if (user.result === null) {
           this.props.history.replace('/');
         }
       })

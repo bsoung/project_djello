@@ -14,7 +14,7 @@ class Boards extends Component {
     const { boardActions, userActions, userReducer, history } = this.props;
 
     userActions.checkCurrentUser().then(user => {
-      if (!user) {
+      if (user.result === null) {
         history.replace('/');
         return;
       }

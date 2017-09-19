@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import asyncValidate from '../../services/AsyncValidate';
 import CircularProgress from 'material-ui/CircularProgress';
+import { withRouter } from 'react-router-dom';
 
 const validate = values => {
   const errors = {}
@@ -40,11 +41,11 @@ const renderTextField = ({
   />
 
 
-const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData, user, loading }) => {
+const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData, user, loading, history }) => {
     const onSubmit = () => {
       login(formData.LoginForm.values)
         .then(() => {
-
+          history.replace('/dashboard')
         })
         .catch((e) => {
           alert(e.message);
@@ -81,5 +82,5 @@ export default reduxForm({
   form: 'LoginForm', 
   validate,
   asyncValidate
-})(LoginForm)
+})(withRouter(LoginForm))
 
