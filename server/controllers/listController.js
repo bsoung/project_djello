@@ -5,8 +5,6 @@ module.exports = {
 		try {
 			const id = req.query.boardId;
 
-			console.log(id, 'id??')
-
 			let params = {
 				parent: id
 			}

@@ -44,7 +44,6 @@ export default {
 			const response = await _get(path, params);
 			const payload = response.hasOwnProperty('result') ? response.result : response;
 
-			console.log(payload, 'what is payload in manager')
 
 			dispatch({
 				type: actionType,

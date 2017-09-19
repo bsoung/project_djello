@@ -25,7 +25,6 @@ class Boards extends Component {
 
   render() {
     const { form, userReducer, boardActions, boardReducer } = this.props;
-    console.log(boardReducer, 'wtf man')
 
     if (!boardReducer.boards) {
       return <div>Loading</div>

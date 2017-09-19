@@ -62,8 +62,6 @@ class NewBoardButton extends Component {
       } 
     }
 
-    console.log(payload, 'what is payload')
-
     createNewBoard(payload)
       .then(() => { this.handleClose(); })
       .catch((e) => { alert(e.message)})

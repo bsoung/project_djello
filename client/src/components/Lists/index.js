@@ -25,7 +25,6 @@ const SortableItem = SortableElement((props) =>
 );
 
 const SortableList = SortableContainer((props) => {
-  console.log(props, 'what is props???')
       return (
 
       <div>
@@ -39,20 +38,28 @@ const SortableList = SortableContainer((props) => {
 
 
 class Lists extends Component {
+  // state = { cards: null }
+
   componentDidMount() {
-    const { listActions, userActions, userReducer, history } = this.props;
+    const { listActions, userActions, cardActions, userReducer, history } = this.props;
     const currentBoardId = window.location.pathname.split('/')[2];
 
     listActions.setCurrentListFromBoard(currentBoardId)
       .then(response => {
-        console.log(response.result.lists, 'lists?')
         return userActions.checkCurrentUser();
       })
+      
       .then(user => {
-          if (user.result === null) {
-            this.props.history.replace('/');
-          }
-        })    
+        if (user.result === null) {
+          this.props.history.replace('/');
+        }
+
+        return cardActions.setCurrentCards();
+      })    
+      .then(cards => {
+        console.log(cards, 'card?')
+ 
+      })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,28 +69,17 @@ class Lists extends Component {
     if (!this.props.listReducer.loading) {
       const isEqual = _.isEqual(this.props.listReducer.lists, nextProps.listReducer.lists);
 
-
-      
-
-
-      
       if (!isEqual) {
-        console.log(this.props.listReducer.lists, 'before');
-        console.log(nextProps.listReducer.lists, 'after');
-
         const payload = {
           newList: nextProps.listReducer.lists
         }
 
-        boardActions.updateCurrentBoard(payload, currentBoardId).then(board => {
-          console.log(board, 'new board')
-        })
+        boardActions.updateCurrentBoard(payload, currentBoardId);
       }
     }
   }
 
   render() {
-    console.log(this.props.listReducer.lists, 'state')
     const { form, userReducer, listActions, listReducer, boardReducer } = this.props;
 
     const renderLists = <SortableList items={listReducer.lists} onSortEnd={listActions.setNewPositionLists} axis="xy" {...this.props} />

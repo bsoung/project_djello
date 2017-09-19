@@ -7,17 +7,18 @@ import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import NewCardButton from '../NewCardButton';
+import CardItem from '../CardItem';
 import './styles.css';
 
 
 class List extends Component {
-
-	handleTouchTap = () => {
-		alert('You clicked the Chip.');
-	}
+	state = { cards: null };
 
 	render() {
-		const { form, userReducer, cardActions, listReducer, currentListId } = this.props;
+		const { form, userReducer, cardActions, cardReducer, currentListId } = this.props;
+		const renderCards = cardReducer.cards
+													.filter(card => card.parent === currentListId)
+													.map(card => <CardItem key={card._id} name={card.name} />)
 
 		return (
 				<div className="card">
@@ -29,20 +30,7 @@ class List extends Component {
 
 				    <Divider />
 
-						<Chip onClick={this.handleTouchTap}>
-				      <Avatar src="http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg" />
-				      Single task
-				    </Chip>
-
-				    <Chip onClick={this.handleTouchTap}>
-				      <Avatar src="http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg" />
-				      Single task
-				    </Chip>
-
-				    <Chip onClick={this.handleTouchTap}>
-				      <Avatar src="http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg" />
-				      Single task
-				    </Chip>
+						{renderCards}
 
 				    <CardActions>
 				      <NewCardButton 

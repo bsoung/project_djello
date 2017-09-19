@@ -3,7 +3,17 @@ const { Card, List } = require('../models');
 module.exports = {
 	index: async (req, res) => {
 		try {
-			const cards = await Card.find();
+			const id = req.query.listId;
+
+			let params = {
+				parent: id
+			}
+
+			if (!id) {
+				params = {};
+			}
+
+			const cards = await Card.find(params);
 
 			res.json({
 				confirmation: 'success',

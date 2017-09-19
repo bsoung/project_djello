@@ -62,8 +62,6 @@ class NewCardButton extends Component {
       } 
     }
 
-    console.log(payload, 'what is payload')
-
     createNewCard(payload)
       .then(() => { this.handleClose(); })
       .catch((e) => { 

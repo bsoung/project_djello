@@ -25,7 +25,7 @@ export function setCurrentCard(id) {
 
 function _setCurrentCardsLoading(payload) {
 	return {
-		type: cardConstants.SET_CURRENT_LISTS_LOADING,
+		type: cardConstants.SET_CURRENT_CARDS_LOADING,
 		payload
 	}
 }

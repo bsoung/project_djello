@@ -21,7 +21,6 @@ export default (state = initialState, action = {}) => {
 			return updated;
 
 		case listConstants.SET_CURRENT_LISTS_SUCCESS:
-			console.log(action.payload, 'reducer')
 			updated.lists = action.payload.lists;
 
 			return updated;

@@ -12,7 +12,6 @@ export default (state = initialState, action = {}) => {
 	switch (action.type) {
 		
 		case cardConstants.CREATE_CARD_SUCCESS:
-			console.log(action.payload, 'do we get here??')
 			updated.cards.push(action.payload);
 			return updated;
 
@@ -20,8 +19,9 @@ export default (state = initialState, action = {}) => {
 			updated.cards = action.payload;
 			return updated;
 
-		case cardConstants.SET_CURRENT_CARD_SUCCESS:
-			updated.card = action.payload;
+		case cardConstants.SET_CURRENT_CARDS_SUCCESS:
+			console.log('hit?', action.payload)
+			updated.cards = action.payload;
 			return updated;
 
 		case cardConstants.SET_CURRENT_CARD_LOADING:

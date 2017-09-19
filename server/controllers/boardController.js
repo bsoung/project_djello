@@ -86,14 +86,11 @@ module.exports = {
 				});
 			}
 
-			console.log(board, 'get here?')
 			// update our list
 			board.lists = req.body.newList;
 
 
 			await board.save();
-
-			console.log(board.lists, 'updated lists');
 
 			res.json({
 				confirmation: 'success',
