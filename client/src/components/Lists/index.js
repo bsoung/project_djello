@@ -4,8 +4,27 @@ import Subheader from 'material-ui/Subheader';
 import List from '../List';
 import NewListButton from '../NewListButton';
 import { withRouter } from 'react-router-dom';
+import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
 
 import './styles.css'
+
+// PLAN OF ATTACK
+// 1. add sortable list +
+// 2. wrap all teh things in hoc's
+
+const SortableItem = SortableElement((props) => <List style={{ float: "left" }} cardTitle={props.list.name} key={props.list._id} {...props} currentListId={props.list._id} />);
+
+const SortableList = SortableContainer((props) => {
+      return (
+      <div>
+        {props.items.map((list, index) => {
+               return <SortableItem key={`item-${index}`} index={index}  {...props} list={list} />
+              })}      
+          
+      </div> 
+      );     
+});
+
 
 class Lists extends Component {
   componentDidMount() {
@@ -23,12 +42,27 @@ class Lists extends Component {
       })
   }
 
+  //Roadmap to modify reducer
+  // create new action props.dispatch(oldIndex, newIndex)
+  //  //
+
+  // componentWillReceiveProps(nextProps) {
+  //   // if (nextProps.listReducer.list) {
+
+  //   // }
+  // }
+
+  // TODO: redux / componentWillReceiveProps
+  // onSortEnd = ({oldIndex, newIndex}) => {
+  //   this.setState({
+  //     items: arrayMove(this.state.items, oldIndex, newIndex),
+  //   });
+  // };
+
   render() {
     const { form, userReducer, listActions, listReducer, boardReducer } = this.props;
 
-    const renderLists = listReducer.lists.map((list) => {
-           return <List cardTitle={list.name} key={list._id} />
-          })
+    const renderLists = <SortableList items={listReducer.lists} onSortEnd={this.onSortEnd} axis="x" {...this.props} />
 
     return (
       <div className="lists">

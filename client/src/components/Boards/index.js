@@ -21,7 +21,6 @@ class Boards extends Component {
       
       boardActions.setUserBoards({ authorId: user.id });
     })
-
   }
 
   render() {

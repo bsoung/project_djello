@@ -38,7 +38,7 @@ const renderTextField = ({
     {...custom}
   />
 
-class NewBoardButton extends Component {
+class NewCardButton extends Component {
   state = {
     open: false,
   };
@@ -51,20 +51,24 @@ class NewBoardButton extends Component {
     this.setState({open: false});
   };
 
-  handleNewBoard = () => {
-    const { dataForm, createNewBoard, user } = this.props;
+  handleNewCard = (e) => {
+    const { dataForm, createNewCard, user, currentListId } = this.props;
+
+    console.log(e.target, 'what this')
+
+    this.handleClose();
 
     const payload = {
-      email: user.email,
       data: {
-        name: dataForm.NewBoardForm.values.name,
-        author: user.id
+        name: dataForm.NewCardForm.values.name,
+        author: user.id,
+        parent: currentListId
       } 
     }
 
     console.log(payload, 'what is payload')
 
-    createNewBoard(payload)
+    createNewCard(payload)
       .then(() => { this.handleClose(); })
       .catch((e) => { alert(e.message)})
   }
@@ -84,19 +88,19 @@ class NewBoardButton extends Component {
         primary={true}
         keyboardFocused={true}
         disabled={pristine || submitting}
-        onClick={this.handleNewBoard}
+        onClick={this.handleNewCard}
         key={'btn2'}
       />,
     ];
 
     return (
       <div> 
-        <FloatingActionButton onClick={this.handleOpen} className="board-btn-box">
+        <FloatingActionButton onClick={this.handleOpen} mini={true} secondary={true}>
           <ContentAdd />
         </FloatingActionButton>
 
         <Dialog
-          title="Create a new board"
+          title="Add a new card"
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
@@ -120,8 +124,8 @@ class NewBoardButton extends Component {
 }
 
 export default reduxForm({
-  form: 'NewBoardForm', 
+  form: 'NewCardForm', 
   validate,
   asyncValidate
-})(NewBoardButton)
+})(NewCardButton)
 

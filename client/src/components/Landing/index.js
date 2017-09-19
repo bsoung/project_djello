@@ -16,12 +16,6 @@ class Landing extends Component {
 		this.props.userActions.checkCurrentUser();
 	}
 
-	// componentWillReceiveProps(nextProps) {
-	// 	if (this.props.userReducer.user) {
-	// 		this.props.history.replace('/dashboard');
-	// 	}
-	// }
-
 	onClickScrollRegister = (e) => {
 			const loginNode = ReactDOM.findDOMNode(this.refs.accountBox)
 			loginNode.scrollIntoView();
@@ -44,7 +38,6 @@ class Landing extends Component {
 	}
 
 	render() {
-		console.log(this.props.userReducer, 'user reducer')
 		const { userActions, form, userReducer } = this.props;
 
 		const registerForm = (

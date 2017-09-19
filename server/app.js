@@ -18,7 +18,7 @@ mongoose.Promise = Promise;
 // session
 app.use(
 	session({
-		cookie: { maxAge: 60000 },
+		cookie: { maxAge: 86400 },
 		secret: 'woot',
 		resave: false,
 		saveUninitialized: false

@@ -18,7 +18,6 @@ const styles = {
 }
 
 class Board extends Component {
-
   render() {
     return (
      <div className="board">

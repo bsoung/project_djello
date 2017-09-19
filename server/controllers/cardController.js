@@ -1,4 +1,4 @@
-const { Card } = require('../models');
+const { Card, List } = require('../models');
 
 module.exports = {
 	index: async (req, res) => {
@@ -37,7 +37,16 @@ module.exports = {
 
 	create: async (req, res, next) => {
 		try {
-			let card = await Card.create(req.body);
+			const list = await List.findOne({ _id: req.body.data.currentListId });
+			const card = await Card.create(req.body.data);
+
+			if (!list.cards.length) {
+				list.cards = [card._id];
+			} else {
+				list.cards.push(card._id);
+			}
+
+			await list.save();
 
 			res.json({
 				confirmation: 'success',

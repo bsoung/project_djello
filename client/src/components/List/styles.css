@@ -1,3 +1,6 @@
 .card {
-	height: 130px;
+	float: left;
+	margin: 10px;
+	height: auto;
+	width: 200px;
 }

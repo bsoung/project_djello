@@ -1,4 +1,6 @@
 import listConstants from '../constants/listConstants';
+import {arrayMove} from 'react-sortable-hoc';
+
 
 const initialState = {
 	lists: [],
@@ -9,6 +11,10 @@ export default (state = initialState, action = {}) => {
 	let updated = Object.assign({}, state);
 
 	switch (action.type) {
+
+		// this.setState({
+  //     items: arrayMove(this.state.items, oldIndex, newIndex),
+  //   });
 		
 		case listConstants.CREATE_LIST_SUCCESS:
 			updated.lists.push(action.payload);
@@ -16,7 +22,6 @@ export default (state = initialState, action = {}) => {
 
 		case listConstants.SET_CURRENT_LISTS_SUCCESS:
 			updated.lists = action.payload;
-			console.log(updated.lists, 'wtf is this shit')
 			return updated;
 
 		case listConstants.SET_CURRENT_LISTS_LOADING:

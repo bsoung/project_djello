@@ -38,9 +38,6 @@ const renderTextField = ({
     {...custom}
   />
 
-/**
- * Dialog content can be scrollable.
- */
 class NewListButton extends Component {
   state = {
     open: false,
@@ -65,8 +62,6 @@ class NewListButton extends Component {
         parent: board._id
       } 
     }
-
-    console.log(payload, 'payoad???')
 
     createNewList(payload)
       .then(() => { this.handleClose(); })
