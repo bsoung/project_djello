@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import asyncValidate from '../../services/AsyncValidate';
@@ -41,23 +41,35 @@ const renderTextField = ({
   />
 
 
-const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData, user, loading, history }) => {
-    const onSubmit = () => {
-      login(formData.LoginForm.values)
-        .then(() => {
-          history.replace('/dashboard')
-        })
-        .catch((e) => {
-          alert(e.message);
-        })
-    }
+class LoginForm extends Component {
 
-    if (loading) {
+  state = { error: null }
+
+  onSubmit = () => {
+    const { login, formData, history } = this.props;
+    
+    login(formData.LoginForm.values)
+      .then(() => {
+        history.replace('/dashboard')
+      })
+      .catch((e) => {
+        this.setState({
+          error: e.message
+        })
+
+        alert(e.message)
+      })
+  }
+
+  render() {
+    const { handleSubmit, pristine, reset, submitting, loading } = this.props;
+
+    if (loading && !this.state.error) {
       return <CircularProgress size={80} thickness={5} />
     }
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
         <h3>Login</h3>
         <div>
           <Field name="email" component={renderTextField} label="Email" required="required" />
@@ -75,8 +87,9 @@ const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData,
         </div>
       </form>
     )
+  }
 
-}
+} 
 
 export default reduxForm({
   form: 'LoginForm', 

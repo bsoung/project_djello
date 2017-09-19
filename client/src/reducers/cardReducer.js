@@ -12,6 +12,7 @@ export default (state = initialState, action = {}) => {
 	switch (action.type) {
 		
 		case cardConstants.CREATE_CARD_SUCCESS:
+			console.log(action.payload, 'do we get here??')
 			updated.cards.push(action.payload);
 			return updated;
 

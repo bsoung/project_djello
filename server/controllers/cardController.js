@@ -37,7 +37,7 @@ module.exports = {
 
 	create: async (req, res, next) => {
 		try {
-			const list = await List.findOne({ _id: req.body.data.currentListId });
+			const list = await List.findOne({ _id: req.body.data.parent });
 			const card = await Card.create(req.body.data);
 
 			if (!list.cards.length) {
@@ -50,7 +50,7 @@ module.exports = {
 
 			res.json({
 				confirmation: 'success',
-				message: card
+				result: card
 			});
 		} catch (e) {
 			res.json({

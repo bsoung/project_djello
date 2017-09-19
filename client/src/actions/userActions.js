@@ -27,13 +27,19 @@ export function checkCurrentUser() {
 	return dispatch => dispatch(AsyncManager.getRequest('/account/currentuser', null, userConstants.SET_USER_SUCCESS));
 }
 
+export function setUserError(error) {
+	return {
+		type: userConstants.SET_USER_FAIL,
+		payload: error
+	}
+}
+
 function _setUserLoading(bool) {
 	return {
 		type: userConstants.SET_USER_LOADING,
 		payload: bool
 	}
 }
-
 
 // export function getUsersRequest() {
 // 	return {

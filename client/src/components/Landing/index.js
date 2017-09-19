@@ -55,8 +55,9 @@ class Landing extends Component {
 			<MuiThemeProvider>
 				<LoginForm 
 					login={userActions.loginUser} 
+					setUserError={userActions.setUserError}
 					formData={form}
-					user={userReducer.user}
+					userReducer={userReducer}
 					loading={userReducer.loading}
 				/>
 			</MuiThemeProvider>

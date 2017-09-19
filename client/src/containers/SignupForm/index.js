@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import asyncValidate from '../../services/AsyncValidate';
@@ -40,46 +40,58 @@ const renderTextField = ({
     {...custom}
   />
 
-const SignupForm = ({ handleSubmit, pristine, reset, submitting, register, formData, loading, history }) => {
-    const onSubmit = () => {
-      register(formData.SignupForm.values)
-        .then(() => {
-          history.replace('/dashboard');
+class SignupForm extends Component {
+  state = { error: null };
+
+  onSubmit = () => {
+    const { register, formData, history } = this.props;
+
+    register(formData.SignupForm.values)
+      .then(() => {
+        history.replace('/dashboard');
+      })
+      .catch((e) => {
+        this.setState({
+          error: e.message
         })
-        .catch((e) => {
-          alert(e.message);
-        })
-    }
 
-    if (loading) {
-      return <CircularProgress size={80} thickness={5} />
-    }
+        alert(e.message);
+      })
+  }
 
-    return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h3>Register</h3>
-        <div>
-          <Field name="username" component={renderTextField} label="Username" required="required" />
-        </div>
-        <div>
-          <Field name="email" component={renderTextField} label="Email" required="required" />
-        </div>
-        <div>
-          <Field name="password" type="password" component={renderTextField} label="Password" required="required" />
-        </div>
+  render() {
+    const { handleSubmit, pristine, reset, submitting, loading } = this.props;
 
-        <div>
-          <button type="submit" disabled={pristine || submitting}>
-            Register
-          </button>
-          <button type="button" disabled={pristine || submitting} onClick={reset}>
-            Reset
-          </button>
-        </div>
-      </form>
+      if (loading && !this.state.error) {
+        return <CircularProgress size={80} thickness={5} />
+      }
+
+      return (
+        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <h3>Register</h3>
+          <div>
+            <Field name="username" component={renderTextField} label="Username" required="required" />
+          </div>
+          <div>
+            <Field name="email" component={renderTextField} label="Email" required="required" />
+          </div>
+          <div>
+            <Field name="password" type="password" component={renderTextField} label="Password" required="required" />
+          </div>
+
+          <div>
+            <button type="submit" disabled={pristine || submitting}>
+              Register
+            </button>
+            <button type="button" disabled={pristine || submitting} onClick={reset}>
+              Reset
+            </button>
+          </div>
+        </form>
     )
-
+  }
 }
+
 
 export default reduxForm({
   form: 'SignupForm', 

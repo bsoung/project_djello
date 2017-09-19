@@ -54,10 +54,6 @@ class NewCardButton extends Component {
   handleNewCard = (e) => {
     const { dataForm, createNewCard, user, currentListId } = this.props;
 
-    console.log(e.target, 'what this')
-
-    this.handleClose();
-
     const payload = {
       data: {
         name: dataForm.NewCardForm.values.name,
@@ -70,7 +66,10 @@ class NewCardButton extends Component {
 
     createNewCard(payload)
       .then(() => { this.handleClose(); })
-      .catch((e) => { alert(e.message)})
+      .catch((e) => { 
+        console.error(e.stack);
+        alert(e.stack)
+      })
   }
 
   render() {
