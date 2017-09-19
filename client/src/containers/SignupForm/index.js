@@ -55,7 +55,7 @@ class SignupForm extends Component {
           error: e.message
         })
 
-        alert(e.message);
+        alert('An error occured during signup, please try again!');
       })
   }
 

@@ -14,10 +14,10 @@ export function setCurrentCards(payload) {
 	};
 }
 
-export function setCurrentCard(id) {
+export function deleteCurrentCard(id) {
 	return dispatch => { 
 		dispatch(_setCurrentCardsLoading(true));
-		return dispatch(AsyncManager.getRequest(`/api/cards/${id}`, null, cardConstants.SET_CURRENT_CARD_SUCCESS, () => {
+		return dispatch(AsyncManager.getRequest(`/api/cards/delete/${id}`, null, cardConstants.DELETE_CURRENT_CARD_SUCCESS, () => {
 			dispatch(_setCurrentCardsLoading(false));
 		}))
 	}

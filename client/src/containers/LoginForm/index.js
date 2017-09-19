@@ -57,7 +57,7 @@ class LoginForm extends Component {
           error: e.message
         })
 
-        alert(e.message)
+        alert('User does not exist!')
       })
   }
 

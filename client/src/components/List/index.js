@@ -12,13 +12,26 @@ import './styles.css';
 
 
 class List extends Component {
-	state = { cards: null };
+
+
+	// componentWillReceiveProps(nextProps) {
+	// 	if (this.props.cardReducer.cards.length !== nextProps.cardReducer.cards.length) {
+	// 		console.log('deleted!')
+	// 	}
+	// }
 
 	render() {
 		const { form, userReducer, cardActions, cardReducer, currentListId } = this.props;
+
 		const renderCards = cardReducer.cards
 													.filter(card => card.parent === currentListId)
-													.map(card => <CardItem key={card._id} name={card.name} />)
+													.map(card => <CardItem 
+																					key={card._id} 
+																					name={card.name} 
+																					cardId={card._id}
+																					deleteCurrentCard={cardActions.deleteCurrentCard}
+																					/>)
+
 
 		return (
 				<div className="card">

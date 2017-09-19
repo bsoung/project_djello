@@ -20,12 +20,16 @@ export default (state = initialState, action = {}) => {
 			return updated;
 
 		case cardConstants.SET_CURRENT_CARDS_SUCCESS:
-			console.log('hit?', action.payload)
 			updated.cards = action.payload;
 			return updated;
 
 		case cardConstants.SET_CURRENT_CARD_LOADING:
 			updated.loading = action.payload;
+			return updated;
+
+		case cardConstants.DELETE_CURRENT_CARD_SUCCESS:
+			console.log(action.payload)
+			updated.cards = action.payload;
 			return updated;
 
 		default:

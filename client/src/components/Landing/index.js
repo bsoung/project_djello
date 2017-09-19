@@ -68,9 +68,12 @@ class Landing extends Component {
 		    <div id="group4" className="parallax__group">
 		    	<div className="parallax__layer parallax__layer--fore">
 		    		<header className="header">
-							<p>Djello</p>
-							<a onClick={this.onClickScrollRegister} >Register</a>
-							<a onClick={this.onClickScrollLogin} >Login</a>
+							<div>
+								<a onClick={this.onClickScrollRegister} >Register</a>
+							</div>
+							<div>
+								<a onClick={this.onClickScrollLogin} >Login</a>
+							</div>
 						</header>
 		        <div className="title foreground-box">
 		        	<h1>Djello</h1>

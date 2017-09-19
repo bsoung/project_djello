@@ -7,9 +7,16 @@ export default class CardItem extends Component {
 		alert('You clicked the Chip.');
 	}
 
+	handleRequestDelete = () => {
+  	alert('You clicked the delete button.');
+	}
+
 	render() {
 		return (
-			<Chip onClick={this.handleTouchTap}>
+			<Chip 
+				onClick={this.handleTouchTap}
+				onRequestDelete={() => { this.props.deleteCurrentCard(this.props.cardId) }}
+			>
 				<Avatar src="http://blogs.discovermagazine.com/80beats/files/2011/07/Jello.jpg" />
 			  {this.props.name}
 			</Chip>

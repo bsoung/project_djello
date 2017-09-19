@@ -1,4 +1,5 @@
-const { Card, List } = require('../models');
+const { Card, List, User } = require('../models');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
 	index: async (req, res) => {
@@ -103,14 +104,30 @@ module.exports = {
 	},
 
 	remove: async function(req, res) {
-		var id = req.params.id;
+		const id = req.params.id;
 
 		try {
+			const decoded = await jwt.verify(req.session.token, process.env.TOKEN_SECRET);
+			const user = await User.findById(decoded.id);
+
+			if (!user) {
+				return res.json({
+					confirmation: 'fail',
+					message: e,
+					result: null
+				});
+			}
+
+			console.log(id, 'do we get here')
 			await Card.findByIdAndRemove(id);
 
-			res.status(204).json({
+			const cards = await Card.find();
+
+			return res.json({
 				confirmation: 'success',
-				message: 'Team deleted'
+				message: 'Card deleted',
+				result: cards
+				
 			});
 
 		} catch (e) {
