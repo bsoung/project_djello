@@ -69,10 +69,10 @@ class Landing extends Component {
 		    	<div className="parallax__layer parallax__layer--fore">
 		    		<header className="header">
 							<div>
-								<a onClick={this.onClickScrollRegister} >Register</a>
+								<a onClick={this.onClickScrollRegister} ><p className="auth-text">Register</p></a>
 							</div>
 							<div>
-								<a onClick={this.onClickScrollLogin} >Login</a>
+								<a onClick={this.onClickScrollLogin} ><p className="auth-text">Login</p></a>
 							</div>
 						</header>
 		        <div className="title foreground-box">
@@ -83,10 +83,10 @@ class Landing extends Component {
 		        <div className="title">base</div>
 		      </div>
 		      <div className="parallax__layer parallax__layer--back">
-		        <div className="title">background</div>
+		        <div className="title">back</div>
 		      </div>
 		      <div className="parallax__layer parallax__layer--deep">
-		        <div className="title">deep background</div>
+		        <div className="title">DEEPER</div>
 		      </div>
 
 		    </div>

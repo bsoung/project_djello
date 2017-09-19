@@ -6,13 +6,8 @@ import NewListButton from '../NewListButton';
 import { withRouter } from 'react-router-dom';
 import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
 import _ from 'lodash';
-import Test from './Test';
 
 import './styles.css'
-
-// PLAN OF ATTACK
-// 1. add sortable list +
-// 2. wrap all teh things in hoc's
 
 const SortableItem = SortableElement((props) => 
   <div style={{ float: "left" }}>
@@ -26,40 +21,33 @@ const SortableItem = SortableElement((props) =>
 
 const SortableList = SortableContainer((props) => {
       return (
-
-      <div>
-        {props.items.map((list, index) => {
-               return <SortableItem key={`item-${index}`} index={index}  {...props} list={list} />
-              })}      
-          
-      </div> 
+        <div>
+          {props.items.map((list, index) => {
+                 return <SortableItem 
+                          key={`item-${index}`} 
+                          index={index}  
+                          {...props} 
+                          list={list} />
+                })}      
+            
+        </div> 
       );     
 });
 
-
 class Lists extends Component {
-  // state = { cards: null }
-
   componentDidMount() {
-    const { listActions, userActions, cardActions, userReducer, history } = this.props;
+    const { listActions, userActions, cardActions, history } = this.props;
     const currentBoardId = window.location.pathname.split('/')[2];
 
-    listActions.setCurrentListFromBoard(currentBoardId)
-      .then(response => {
-        return userActions.checkCurrentUser();
-      })
-      
-      .then(user => {
-        if (user.result === null) {
-          this.props.history.replace('/');
-        }
+    userActions.checkCurrentUser().then(user => {
+      if (user.result === null) {
+        history.replace('/');
+      }
+    })
 
-        return cardActions.setCurrentCards();
-      })    
-      .then(cards => {
-        console.log(cards, 'card?')
- 
-      })
+    listActions.setCurrentListFromBoard(currentBoardId).then(() => {
+      cardActions.setCurrentCards();
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,7 +70,11 @@ class Lists extends Component {
   render() {
     const { form, userReducer, listActions, listReducer, boardReducer } = this.props;
 
-    const renderLists = <SortableList items={listReducer.lists} onSortEnd={listActions.setNewPositionLists} axis="xy" {...this.props} />
+    const renderLists = <SortableList 
+                          items={listReducer.lists} 
+                          onSortEnd={listActions.setNewPositionLists} 
+                          axis="xy" {...this.props} 
+                          />
 
     return (
       <div className="lists">

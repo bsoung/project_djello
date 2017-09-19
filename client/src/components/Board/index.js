@@ -18,11 +18,19 @@ const styles = {
 }
 
 class Board extends Component {
+	componentDidMount() {
+		this.props.userActions.checkCurrentUser();
+	}
+
   render() {
     return (
      <div className="board">
 			<div style={styles.boardBox}>
-				{this.props.boardReducer.loading ? <CircularProgress size={80} thickness={5} /> : <Lists {...this.props} />}
+				{this.props.boardReducer.loading ? <CircularProgress 
+																						size={80} 
+																						thickness={5} /> 
+																				 : <Lists {...this.props} 
+																				 />}
 			</div>
 
 			<div style={styles.sidebarBox}>

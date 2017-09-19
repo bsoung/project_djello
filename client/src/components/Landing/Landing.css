@@ -8,3 +8,7 @@
   height: inherit;
   background-color: white;
   color: black; }
+
+ .auth-text {
+ 	font-size: 0.7em;
+ }
