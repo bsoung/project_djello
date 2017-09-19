@@ -31,7 +31,7 @@ module.exports = {
 		const id = req.params.id;
 
 		try {
-			const board = await Board.findById(id);
+			const board = await Board.findById(id).populate('lists');
 
 			res.json({
 				confirmation: 'success',
@@ -74,7 +74,7 @@ module.exports = {
 	},
 
 	update: async function(req, res) {
-		var id = req.params.id;
+		const id = req.params.id;
 
 		try {
 			let board = await Board.findOne({ _id: id });
@@ -86,16 +86,19 @@ module.exports = {
 				});
 			}
 
-			// only supports updating username for now
-			board.username = req.body.username;
+			console.log(board, 'get here?')
+			// update our list
+			board.lists = req.body.newList;
+
 
 			await board.save();
+
+			console.log(board.lists, 'updated lists');
 
 			res.json({
 				confirmation: 'success',
 				result: board
 			})
-
 
 		} catch (e) {
 			res.status(500).json({

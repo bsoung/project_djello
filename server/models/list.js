@@ -9,5 +9,4 @@ const ListSchema = mongoose.Schema({
 	timestamp: { type: Date, default: Date.now }
 });
 
-
 module.exports = mongoose.model("List", ListSchema);

@@ -17,8 +17,6 @@ module.exports = {
 
 			const lists = await List.find(params).populate('cards').populate('author');
 
-			console.log(lists, 'what do we get??')
-
 			res.json({
 				confirmation: 'success',
 				result: lists

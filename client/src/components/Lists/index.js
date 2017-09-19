@@ -5,6 +5,8 @@ import List from '../List';
 import NewListButton from '../NewListButton';
 import { withRouter } from 'react-router-dom';
 import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
+import _ from 'lodash';
+import Test from './Test';
 
 import './styles.css'
 
@@ -12,10 +14,20 @@ import './styles.css'
 // 1. add sortable list +
 // 2. wrap all teh things in hoc's
 
-const SortableItem = SortableElement((props) => <List style={{ float: "left" }} cardTitle={props.list.name} key={props.list._id} {...props} currentListId={props.list._id} />);
+const SortableItem = SortableElement((props) => 
+  <div style={{ float: "left" }}>
+    <List 
+      style={{ float: "left" }} 
+      cardTitle={props.list.name} 
+      key={props.list._id} {...props} 
+      currentListId={props.list._id} />
+  </div>
+);
 
 const SortableList = SortableContainer((props) => {
+  console.log(props, 'what is props???')
       return (
+
       <div>
         {props.items.map((list, index) => {
                return <SortableItem key={`item-${index}`} index={index}  {...props} list={list} />
@@ -31,42 +43,53 @@ class Lists extends Component {
     const { listActions, userActions, userReducer, history } = this.props;
     const currentBoardId = window.location.pathname.split('/')[2];
 
-    listActions.setCurrentLists({ boardId: currentBoardId })
-      .then(() => {
+    listActions.setCurrentListFromBoard(currentBoardId)
+      .then(response => {
+        console.log(response.result.lists, 'lists?')
         return userActions.checkCurrentUser();
       })
       .then(user => {
-        if (user.result === null) {
-          this.props.history.replace('/');
-        }
-      })
+          if (user.result === null) {
+            this.props.history.replace('/');
+          }
+        })    
   }
 
-  //Roadmap to modify reducer
-  // create new action props.dispatch(oldIndex, newIndex)
-  //  //
+  componentWillReceiveProps(nextProps) {
+    const { boardActions, listReducer } = this.props;
+    const currentBoardId = window.location.pathname.split('/')[2];
 
-  // componentWillReceiveProps(nextProps) {
-  //   // if (nextProps.listReducer.list) {
+    if (!this.props.listReducer.loading) {
+      const isEqual = _.isEqual(this.props.listReducer.lists, nextProps.listReducer.lists);
 
-  //   // }
-  // }
 
-  // TODO: redux / componentWillReceiveProps
-  // onSortEnd = ({oldIndex, newIndex}) => {
-  //   this.setState({
-  //     items: arrayMove(this.state.items, oldIndex, newIndex),
-  //   });
-  // };
+      
+
+
+      
+      if (!isEqual) {
+        console.log(this.props.listReducer.lists, 'before');
+        console.log(nextProps.listReducer.lists, 'after');
+
+        const payload = {
+          newList: nextProps.listReducer.lists
+        }
+
+        boardActions.updateCurrentBoard(payload, currentBoardId).then(board => {
+          console.log(board, 'new board')
+        })
+      }
+    }
+  }
 
   render() {
+    console.log(this.props.listReducer.lists, 'state')
     const { form, userReducer, listActions, listReducer, boardReducer } = this.props;
 
-    const renderLists = <SortableList items={listReducer.lists} onSortEnd={this.onSortEnd} axis="x" {...this.props} />
+    const renderLists = <SortableList items={listReducer.lists} onSortEnd={listActions.setNewPositionLists} axis="xy" {...this.props} />
 
     return (
       <div className="lists">
-
         <NewListButton 
           dataForm={form} 
           user={userReducer.user} 
@@ -79,7 +102,7 @@ class Lists extends Component {
           <Subheader>Lists</Subheader>
 
           <div className="lists-box">
-            {listReducer.loading ? '' : renderLists}
+            {(listReducer.loading) ? '' : renderLists}
           </div>
           
         </GridList>

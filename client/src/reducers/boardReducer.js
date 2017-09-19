@@ -27,6 +27,7 @@ export default (state = initialState, action = {}) => {
 			updated.loading = action.payload;
 			return updated;
 
+
 		default:
 			return updated;
 	}

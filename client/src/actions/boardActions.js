@@ -18,10 +18,21 @@ export function setCurrentBoard(id) {
 	}
 }
 
-function _setCurrentBoardLoading(payload) {
-	return {
-		type: boardConstants.SET_CURRENT_BOARD_LOADING,
-		payload
+export function updateCurrentBoard(payload, id) {
+	return dispatch => { 
+		// dispatch(_setCurrentBoardLoading(true));
+		return dispatch(AsyncManager.postRequest(`/api/boards/update/${id}`, payload, boardConstants.SET_CURRENT_BOARD_SUCCESS, () => {
+			// dispatch(_setCurrentBoardLoading(false));
+		}))
 	}
 }
+
+function _setCurrentBoardLoading(bool) {
+	return {
+		type: boardConstants.SET_CURRENT_BOARD_LOADING,
+		payload: bool
+	}
+}
+
+
 

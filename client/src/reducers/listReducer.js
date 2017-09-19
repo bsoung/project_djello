@@ -21,11 +21,21 @@ export default (state = initialState, action = {}) => {
 			return updated;
 
 		case listConstants.SET_CURRENT_LISTS_SUCCESS:
-			updated.lists = action.payload;
+			console.log(action.payload, 'reducer')
+			updated.lists = action.payload.lists;
+
 			return updated;
 
 		case listConstants.SET_CURRENT_LISTS_LOADING:
 			updated.loading = action.payload;
+			return updated;
+
+		case listConstants.UPDATE_LIST_POSITIONS:
+			const { oldIndex, newIndex } = action.payload;
+			const newArr = arrayMove(updated.lists, oldIndex, newIndex)
+			// console.log(newArr, 'new arr')
+			updated.lists = newArr
+			console.log(updated.lists, 'changed?')
 			return updated;
 
 		default:
