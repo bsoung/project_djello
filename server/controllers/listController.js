@@ -1,9 +1,23 @@
-const { List } = require('../models');
+const { List, Board } = require('../models');
 
 module.exports = {
 	index: async (req, res) => {
 		try {
-			const lists = await List.find();
+			const id = req.query.boardId;
+
+			console.log(id, 'id??')
+
+			let params = {
+				parent: id
+			}
+
+			if (!id) {
+				params = {};
+			}
+
+			const lists = await List.find(params).populate('cards').populate('author');
+
+			console.log(lists, 'what do we get??')
 
 			res.json({
 				confirmation: 'success',
@@ -37,11 +51,20 @@ module.exports = {
 
 	create: async (req, res, next) => {
 		try {
-			let list = await List.create(req.body);
+			const board = await Board.findOne({ _id: req.body.boardId });
+			const list = await List.create(req.body.data);
+
+			if (!board.lists.length) {
+				board.lists = [list._id];
+			} else {
+				board.lists.push(list._id);
+			}
+
+			await board.save();
 
 			res.json({
 				confirmation: 'success',
-				message: list
+				result: list
 			});
 		} catch (e) {
 			res.json({
@@ -52,10 +75,10 @@ module.exports = {
 	},
 
 	update: async function(req, res) {
-		var id = req.params.id;
+		const id = req.params.id;
 
 		try {
-			let list = await List.findOne({ _id: id });
+			const list = await List.findOne({ _id: id });
 
 			if (!list) {
 				return res.status(404).json({
@@ -84,7 +107,7 @@ module.exports = {
 	},
 
 	remove: async function(req, res) {
-		var id = req.params.id;
+		const id = req.params.id;
 
 		try {
 			await List.findByIdAndRemove(id);

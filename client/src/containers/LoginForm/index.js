@@ -2,6 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import asyncValidate from '../../services/AsyncValidate';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const validate = values => {
   const errors = {}
@@ -38,24 +39,20 @@ const renderTextField = ({
     {...custom}
   />
 
-const isEmpty = (obj) => {
-  for(var key in obj) {
-      if(obj.hasOwnProperty(key))
-          return false;
-  }
-  return true;
-}
 
-const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData, user }) => {
+const LoginForm = ({ handleSubmit, pristine, reset, submitting, login, formData, user, loading }) => {
     const onSubmit = () => {
       login(formData.LoginForm.values)
         .then(() => {
-          // alert("logged in")
-          // window.location.replace('/dashboard');
+
         })
         .catch((e) => {
           alert(e.message);
         })
+    }
+
+    if (loading) {
+      return <CircularProgress size={80} thickness={5} />
     }
 
     return (

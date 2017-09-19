@@ -10,12 +10,6 @@ import asyncValidate from '../../services/AsyncValidate';
 
 import './styles.css';
 
-const styles = {
-  radioButton: {
-    marginTop: 16,
-  },
-};
-
 const validate = values => {
   const errors = {}
   const requiredFields = [
@@ -61,23 +55,27 @@ class NewListButton extends Component {
   };
 
   handleNewList = () => {
-    // const { dataForm, createNewBoard, user } = this.props;
+    const { dataForm, createNewList, user, board } = this.props;
+    
+    const payload = {
+      boardId: board._id,
+      data: {
+        name: dataForm.NewListForm.values.name,
+        author: user.id,
+        parent: board._id
+      } 
+    }
 
-    // const payload = {
-    //   email: user.email,
-    //   data: {
-    //     name: dataForm.NewBoardForm.values.name,
-    //     author: user.id
-    //   } 
-    // }
+    console.log(payload, 'payoad???')
 
-    // createNewBoard(payload)
-    //   .then(() => { this.handleClose(); })
-    //   .catch((e) => { alert(e.message)})
+    createNewList(payload)
+      .then(() => { this.handleClose(); })
+      .catch((e) => { console.log(e.stack) })
   }
 
   render() {
     const { pristine, reset, submitting } = this.props;
+
 
     const actions = [
       <FlatButton
@@ -91,7 +89,7 @@ class NewListButton extends Component {
         primary={true}
         keyboardFocused={true}
         disabled={pristine || submitting}
-        onClick={this.handleNewBoard}
+        onClick={this.handleNewList}
         key={'btn2'}
       />,
     ];

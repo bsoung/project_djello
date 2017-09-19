@@ -1,12 +1,10 @@
-const { Board } = require('../models');
-const { User } = require('../models');
-const mongoose = require('mongoose');
+const { Board, User } = require('../models');
 
 module.exports = {
 	index: async (req, res) => {
 		try {
 			const id = req.query.authorId;
-			console.log(req.query)
+
 			let params = {
 				author: id
 			}

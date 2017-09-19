@@ -2,6 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import asyncValidate from '../../services/AsyncValidate';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const validate = values => {
   const errors = {}
@@ -38,15 +39,16 @@ const renderTextField = ({
     {...custom}
   />
 
-const SignupForm = ({ handleSubmit, pristine, reset, submitting, register, formData }) => {
+const SignupForm = ({ handleSubmit, pristine, reset, submitting, register, formData, loading }) => {
     const onSubmit = () => {
       register(formData.SignupForm.values)
-        .then(() => {
-          alert("User created")
-        })
         .catch((e) => {
           alert(e.message);
         })
+    }
+
+    if (loading) {
+      return <CircularProgress size={80} thickness={5} />
     }
 
     return (

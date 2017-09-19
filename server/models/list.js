@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const ListSchema = mongoose.Schema({
 	name: { type: String, required: true, unique: true },
+	parent: { type: Schema.Types.ObjectId, ref: "Board" },
 	author: { type: Schema.Types.ObjectId, ref: "User" },
 	cards: [{ type: Schema.Types.ObjectId, ref: "Card" }],
 	timestamp: { type: Date, default: Date.now }

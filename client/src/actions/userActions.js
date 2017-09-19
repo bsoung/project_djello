@@ -6,11 +6,21 @@ import userConstants from '../constants/userConstants';
 // }
 
 export function registerUser(credentials) {
-	return dispatch => dispatch(AsyncManager.postRequest('/api/users', credentials, userConstants.SET_USER_SUCCESS));
+	return dispatch => { 
+		dispatch(_setUserLoading(true));
+		return dispatch(AsyncManager.postRequest('/api/users', credentials, userConstants.SET_USER_SUCCESS, () => {
+			dispatch(_setUserLoading(false));
+		})); 
+	}
 }
 
 export function loginUser(credentials) {
-	return dispatch => dispatch(AsyncManager.postRequest('/account/login', credentials, userConstants.SET_USER_SUCCESS));
+	return dispatch => {
+		dispatch(_setUserLoading(true));
+		return dispatch(AsyncManager.postRequest('/account/login', credentials, userConstants.SET_USER_SUCCESS, () => {
+			dispatch(_setUserLoading(false));
+		})); 
+	}
 }
 
 export function logoutUser(credentials) {
@@ -20,6 +30,14 @@ export function logoutUser(credentials) {
 export function checkCurrentUser() {
 	return dispatch => dispatch(AsyncManager.getRequest('/account/currentuser', null, userConstants.SET_USER_SUCCESS));
 }
+
+function _setUserLoading(payload) {
+	return {
+		type: userConstants.SET_USER_LOADING,
+		payload
+	}
+}
+
 
 // export function getUsersRequest() {
 // 	return {

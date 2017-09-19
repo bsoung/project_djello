@@ -1,45 +1,37 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { GridList, GridTile } from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
+import { GridList } from 'material-ui/GridList';
 import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import NewBoardButton from '../NewBoardButton';
 import List from '../List';
 import NewListButton from '../NewListButton';
+import { withRouter } from 'react-router-dom';
 
 import './styles.css'
 
-const dummyList = [
-
-];
-
-for (let i = 1; i <= 10; i++) {
-  dummyList.push({
-    _id: `23fjlfkjifl23jf${i}`,
-    name: `super list ${i}`,
-    author: `jon${i}`,
-    cards: []
-  })
-}
-
 class Lists extends Component {
+  componentDidMount() {
+    const { listActions, userActions, userReducer, history } = this.props;
+    const currentBoardId = window.location.pathname.split('/')[2];
+
+    listActions.setCurrentLists({ boardId: currentBoardId }).then(() => {
+      userActions.checkCurrentUser();
+    })  
+  }
+
   render() {
-    const renderLists = !dummyList.length ? <p>You have not created any Lists yet!</p> : dummyList.map((list) => (
-            <div key={list._id}>
-               <List cardTitle={list.name} authorName={list.author} />
-            </div>
-          ))
+    const { form, userReducer, listActions, listReducer, boardReducer } = this.props;
+
+    const renderLists = listReducer.lists.map((list) => {
+           return <List cardTitle={list.name} key={list._id} />
+          })
 
     return (
       <div className="lists">
 
         <NewListButton 
-          // dataForm={form} 
-          // user={userReducer.user} 
-          // createNewBoard={boardActions.createNewBoard} 
+          dataForm={form} 
+          user={userReducer.user} 
+          board={boardReducer.board}
+          createNewList={listActions.createNewList} 
         />
         <GridList
           cellHeight={180}
@@ -47,7 +39,7 @@ class Lists extends Component {
           <Subheader>Lists</Subheader>
 
           <div className="lists-box">
-            {renderLists}
+            {listReducer.loading ? '' : renderLists}
           </div>
           
         </GridList>
@@ -56,4 +48,4 @@ class Lists extends Component {
   }
 }
 
-export default Lists;
+export default withRouter(Lists);

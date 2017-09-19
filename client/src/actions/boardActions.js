@@ -6,10 +6,22 @@ export function createNewBoard(payload) {
 }
 
 export function setUserBoards(payload) {
-	return dispatch => dispatch(AsyncManager.getRequest('/api/boards/', payload, boardConstants.SET_BOARDS_SUCCESS));
+	return dispatch => dispatch(AsyncManager.getRequest('/api/boards', payload, boardConstants.SET_BOARDS_SUCCESS));
 }
 
 export function setCurrentBoard(id) {
-	return dispatch => dispatch(AsyncManager.getRequest(`/api/boards/${id}`, null, boardConstants.SET_CURRENT_BOARD_SUCCESS));
+	return dispatch => { 
+		dispatch(_setCurrentBoardLoading(true));
+		return dispatch(AsyncManager.getRequest(`/api/boards/${id}`, null, boardConstants.SET_CURRENT_BOARD_SUCCESS, () => {
+			dispatch(_setCurrentBoardLoading(false));
+		}))
+	}
+}
+
+function _setCurrentBoardLoading(payload) {
+	return {
+		type: boardConstants.SET_CURRENT_BOARD_LOADING,
+		payload
+	}
 }
 

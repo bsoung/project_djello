@@ -10,12 +10,6 @@ import asyncValidate from '../../services/AsyncValidate';
 
 import './styles.css';
 
-const styles = {
-  radioButton: {
-    marginTop: 16,
-  },
-};
-
 const validate = values => {
   const errors = {}
   const requiredFields = [

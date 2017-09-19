@@ -3,16 +3,26 @@ import ReactDOM from 'react-dom';
 import SignupForm from '../../containers/SignupForm';
 import LoginForm from '../../containers/LoginForm';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import './Landing.css';
 
 class Landing extends Component {
-	constructor() {
-		super();
+	state = {
+		showLogin: false,
+		showRegister: true
+	}
 
-		this.state = {
-			showLogin: false,
-			showRegister: true
+	componentDidMount() {
+		this.props.userActions.checkCurrentUser().then(() => {
+			if (this.props.userReducer.user) {
+				this.props.history.replace('/dashboard');
+			}
+		});
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (this.props.userReducer.user) {
+			this.props.history.replace('/dashboard');
 		}
 	}
 
@@ -35,11 +45,10 @@ class Landing extends Component {
 			showRegister: false,
 			showLogin: false
 		})
-		
 	}
 
-
 	render() {
+		console.log(this.props.userReducer, 'user reducer')
 		const { userActions, form, userReducer } = this.props;
 
 		const registerForm = (
@@ -48,6 +57,7 @@ class Landing extends Component {
         			register={userActions.registerUser}
         			formData={form}
         			user={userReducer.user}
+        			loading={userReducer.loading}
         		/>
 		    </MuiThemeProvider>
 			)
@@ -58,6 +68,7 @@ class Landing extends Component {
 					login={userActions.loginUser} 
 					formData={form}
 					user={userReducer.user}
+					loading={userReducer.loading}
 				/>
 			</MuiThemeProvider>
 		)

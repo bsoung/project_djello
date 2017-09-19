@@ -108,8 +108,7 @@ module.exports = {
 
 			return res.json({
 				confirmation: 'success',
-				result: user.summary(),
-				token: token
+				result: user.summary()
 			});
 
 		} catch (e) {
@@ -137,8 +136,6 @@ module.exports = {
 			const hash = await bcrypt.hashSync(req.body.password, 12);
 			req.body.password = hash;
 
-			console.log(req.body, 'saved info')
-
 			const user = await User.create(req.body);
 
 			const token = jwt.sign({id: user.id}, process.env.TOKEN_SECRET, {expiresIn: '1d'});
@@ -164,8 +161,7 @@ module.exports = {
 
 			return res.json({
 				confirmation: 'success',
-				result: user.summary(),
-				token: token
+				result: user.summary()
 			});
 
 		} catch (e) {

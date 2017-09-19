@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Boards from '../../components/Boards';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
+
 
 const styles = {
 	boardBox: {
@@ -17,6 +18,13 @@ const styles = {
 }
 
 class Dashboard extends Component {
+	componentDidMount() {
+		this.props.userActions.checkCurrentUser().then(() => {
+			if (!this.props.userReducer.user) {
+				this.props.history.replace('/');
+			}
+		})
+	}
 
 	render() {
 		return (
@@ -30,10 +38,9 @@ class Dashboard extends Component {
 				<div style={styles.sidebarBox}>
 					<Sidebar {...this.props} />
 				</div>
-				{(!this.props.userReducer.user) && <Redirect to="/" push={true} />}
 			</div>
 		)
 	}
 }
 
-export default Dashboard;			
+export default withRouter(Dashboard);			

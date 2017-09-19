@@ -2,10 +2,7 @@ import userConstants from '../constants/userConstants';
 
 const initialState = {
 	user: null,
-	isAuthenticated: false,
-	users: [],
-	isFetching: false,
-	error: null
+	loading: false
 };
 
 export default (state = initialState, action = {}) => {
@@ -14,6 +11,10 @@ export default (state = initialState, action = {}) => {
 	switch (action.type) {
 		case userConstants.SET_USER_SUCCESS:
 			updated.user = action.payload;
+			return updated;
+
+		case userConstants.SET_USER_LOADING:
+			updated.loading = action.payload;
 			return updated;
 
 		default:

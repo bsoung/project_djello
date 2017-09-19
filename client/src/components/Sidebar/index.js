@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './styles.css';
 import {List, ListItem} from 'material-ui/List';
-import { Redirect } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import ActionAssignment from 'material-ui/svg-icons/action/assignment';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
@@ -14,6 +14,7 @@ class Sidebar extends Component {
   handleLogout = () => {
     this.props.userActions.logoutUser().then(() => {
       this.props.boardActions.setUserBoards([]);
+      this.props.history.replace('/');
     })
   }
 
@@ -22,7 +23,7 @@ class Sidebar extends Component {
       <div className="sidebar">
         <List>
           <ListItem primaryText="Profile" leftIcon={<ActionAssignment />} />
-          <ListItem primaryText="Boards" leftIcon={<ActionGrade />} />
+          <Link to="/dashboard"><ListItem primaryText="Boards" leftIcon={<ActionGrade />} /></Link>
           <ListItem primaryText="Teams" leftIcon={<ContentSend />} />
           <ListItem primaryText="Feed" leftIcon={<ContentDrafts />} />
           <ListItem primaryText="Test" leftIcon={<ContentInbox />} />
@@ -40,7 +41,7 @@ class Sidebar extends Component {
   }
 } 
 
-export default Sidebar;
+export default withRouter(Sidebar);
 
 // {(!this.props.userReducer.user && window.location.pathname === '/dashboard') && <Redirect to="/" push={true} />}
 

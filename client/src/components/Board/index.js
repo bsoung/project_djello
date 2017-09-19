@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import Sidebar from '../Sidebar';
 import Lists from '../Lists';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const styles = {
 	boardBox: {
@@ -17,24 +18,22 @@ const styles = {
 }
 
 class Board extends Component {
-	// componentDidMount() {
-
-	// }
 
   render() {
-  	console.log(this.props.boardReducer, 'boardReducer')
     return (
      <div className="board">
-				<div style={styles.boardBox}>
-					<Lists />
-				</div>
-
-				<div style={styles.sidebarBox}>
-					<Sidebar {...this.props} />
-				</div>
+			<div style={styles.boardBox}>
+				{this.props.boardReducer.loading ? <CircularProgress size={80} thickness={5} /> : <Lists {...this.props} />}
 			</div>
+
+			<div style={styles.sidebarBox}>
+				<Sidebar {...this.props} />
+			</div>
+		</div>
     );
   }
 }
 
 export default Board;
+
+// 				{(!this.props.userReducer.user) && <Redirect to="/" push={true} />}

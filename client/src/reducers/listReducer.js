@@ -2,8 +2,7 @@ import listConstants from '../constants/listConstants';
 
 const initialState = {
 	lists: [],
-	isFetching: false,
-	error: null
+	loading: false
 };
 
 export default (state = initialState, action = {}) => {
@@ -15,14 +14,14 @@ export default (state = initialState, action = {}) => {
 			updated.lists.push(action.payload);
 			return updated;
 
-		// case boardConstants.SET_BOARDS_SUCCESS:
-		// 	console.log(typeof action.payload, 'what is this payload in board')
-		// 	updated.boards = action.payload;
-		// 	return updated;
+		case listConstants.SET_CURRENT_LISTS_SUCCESS:
+			updated.lists = action.payload;
+			console.log(updated.lists, 'wtf is this shit')
+			return updated;
 
-		// case boardConstants.SET_CURRENT_BOARD_SUCCESS:
-		// 	updated.board = action.payload;
-		// 	return updated;
+		case listConstants.SET_CURRENT_LISTS_LOADING:
+			updated.loading = action.payload;
+			return updated;
 
 		default:
 			return updated;

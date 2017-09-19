@@ -39,7 +39,6 @@ const _post = async (url, params=null) => {
 
 export default {
 	getRequest: (path, params, actionType, cb) => async dispatch => {
-			console.log(params, 'what is this? in asyncmanager')
 		try {
 			const response = await _get(path, params);
 			const payload = response.hasOwnProperty('result') ? response.result : response;

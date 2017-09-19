@@ -1,8 +1,5 @@
-var router = require('express').Router();
-var controllers = require('../controllers');
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
-const { User } = require('../models');
+const router = require('express').Router();
+const controllers = require('../controllers');
 
 router.get('/currentuser', controllers.users.get);
 
